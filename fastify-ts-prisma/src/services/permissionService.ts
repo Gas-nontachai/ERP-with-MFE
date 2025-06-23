@@ -27,14 +27,16 @@ export async function generatePermissionId(): Promise<string> {
   return permissionId;
 }
 
-export async function getPermissionById(permissionId: string): Promise<Permission | null> {
+export async function getPermissionById(
+  permissionId: string
+): Promise<Permission | null> {
   return prisma.permission.findUnique({
     where: { id: permissionId },
   });
 }
 
-export async function getAllPermissions(): Promise<Permission[]> {
-  return prisma.permission.findMany();
+export async function getAllPermissions(query: any): Promise<Permission[]> {
+  return prisma.permission.findMany({ ...query });
 }
 
 export async function createPermission(
@@ -43,7 +45,9 @@ export async function createPermission(
   description: string,
   addBy: string
 ): Promise<Permission> {
-  const existingPermission = await prisma.permission.findUnique({ where: { name } });
+  const existingPermission = await prisma.permission.findUnique({
+    where: { name },
+  });
   if (existingPermission) {
     throw new Error("Permission already in use");
   }
@@ -68,7 +72,9 @@ export async function updatePermissionById(
   });
 }
 
-export async function deletePermissionById(permissionId: string): Promise<void> {
+export async function deletePermissionById(
+  permissionId: string
+): Promise<void> {
   await prisma.permission.delete({
     where: { id: permissionId },
   });

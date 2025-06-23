@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { userService } from "../services";
+import { buildPrismaQuery, QueryParams } from "../utils/buildPrismaQuery";
 
 export async function generateUserId(
   request: FastifyRequest,
@@ -13,7 +14,8 @@ export async function getAllUsers(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const users = await userService.getAllUsers();
+  const query = buildPrismaQuery(request.query as QueryParams);
+  const users = await userService.getAllUsers(query);
   reply.send(users);
 }
 

@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { permissionService } from "../services";
+import { buildPrismaQuery, QueryParams } from "../utils/buildPrismaQuery";
 
 export async function generatePermissionId(
   request: FastifyRequest,
@@ -13,7 +14,8 @@ export async function getAllPermissions(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const permissions = await permissionService.getAllPermissions();
+  const query = buildPrismaQuery(request.query as QueryParams);
+  const permissions = await permissionService.getAllPermissions(query);
   reply.send(permissions);
 }
 
@@ -39,7 +41,12 @@ export async function createPermission(
   const { name, description } = request.body;
   const addBy = (request.user as any).userId;
   try {
-    const permission = await permissionService.createPermission(permissionId, name, description, addBy);
+    const permission = await permissionService.createPermission(
+      permissionId,
+      name,
+      description,
+      addBy
+    );
     reply.code(201).send(permission);
   } catch (error) {
     reply.status(400).send({ error: (error as Error).message });
@@ -57,12 +64,15 @@ export async function updatePermissionById(
   const { name, description } = request.body;
   const updateBy = (request.user as any).userId;
   try {
-    const updatedPermission = await permissionService.updatePermissionById(permissionId, {
-      name,
-      description,
-      updateBy,
-      updatedAt: new Date(),
-    });
+    const updatedPermission = await permissionService.updatePermissionById(
+      permissionId,
+      {
+        name,
+        description,
+        updateBy,
+        updatedAt: new Date(),
+      }
+    );
     reply.send(updatedPermission);
   } catch (error) {
     reply.status(400).send({ error: (error as Error).message });

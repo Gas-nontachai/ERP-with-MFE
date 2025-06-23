@@ -36,8 +36,9 @@ export async function getUserById(userId: string): Promise<User | null> {
   });
 }
 
-export async function getAllUsers(): Promise<User[]> {
+export async function getAllUsers(query: any): Promise<User[]> {
   return prisma.user.findMany({
+    ...query,
     include: { role: true },
   });
 }

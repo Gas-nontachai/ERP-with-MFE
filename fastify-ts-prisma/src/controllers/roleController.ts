@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { roleService } from "../services";
+import { buildPrismaQuery, QueryParams } from "../utils/buildPrismaQuery";
 
 export async function generateRoleId(
   request: FastifyRequest,
@@ -13,7 +14,8 @@ export async function getAllRoles(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const roles = await roleService.getAllRoles();
+  const query = buildPrismaQuery(request.query as QueryParams);
+  const roles = await roleService.getAllRoles(query);
   reply.send(roles);
 }
 

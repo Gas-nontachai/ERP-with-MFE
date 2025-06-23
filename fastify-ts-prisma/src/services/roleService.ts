@@ -33,8 +33,8 @@ export async function getRoleById(roleId: string): Promise<Role | null> {
   });
 }
 
-export async function getAllRoles(): Promise<Role[]> {
-  return prisma.role.findMany();
+export async function getAllRoles(query: any): Promise<Role[]> {
+  return prisma.role.findMany({ ...query });
 }
 
 export async function createRole(
