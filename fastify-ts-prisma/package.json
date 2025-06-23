@@ -1,0 +1,32 @@
+{
+  "name": "fastify-ts-prisma",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@fastify/jwt": "^9.1.0",
+    "@prisma/client": "^6.10.1",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
+    "fastify": "^5.4.0",
+    "fastify-jwt": "^4.1.3",
+    "prisma": "^6.10.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^24.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

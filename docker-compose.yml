@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql-container-erp
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: myadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root123
+
+  app:
+    build:
+      context: ./fastify-ts-prisma
+    container_name: fastify-api
+    restart: always
+    ports:
+      - "5120:5120"
+    environment:
+      DATABASE_URL: mysql://root:root123@mysql:3306/erp
+      JWT_SECRET: 8cc0dd22fdec33af13ea9e9809f68a90
+      PORT: 5120
+    depends_on:
+      - mysql
+    volumes:
+      - ./fastify-ts-prisma:/app
+    working_dir: /app
+    command: npm run dev # หรือ npm run start ขึ้นกับโปรเจกต์
+
+volumes:
+  mysql_data:

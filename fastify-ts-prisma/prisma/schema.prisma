@@ -1,0 +1,89 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+// generator client {
+//   provider      = "prisma-client-js"
+//   binaryTargets = ["native"]
+// }
+
+model User {
+  userId    String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id])
+
+  // Reverse relations for audit fields
+  rolesCreated       Role[]           @relation("RoleCreatedBy")
+  rolesUpdated       Role[]           @relation("RoleUpdatedBy")
+  permissionsCreated Permission[]     @relation("PermissionCreatedBy")
+  permissionsUpdated Permission[]     @relation("PermissionUpdatedBy")
+  rpCreated          RolePermission[] @relation("RPCreatedBy")
+  rpUpdated          RolePermission[] @relation("RPUpdatedBy")
+}
+
+model Role {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+
+  addBy    String?
+  updateBy String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  createdBy User? @relation("RoleCreatedBy", fields: [addBy], references: [userId])
+  updatedBy User? @relation("RoleUpdatedBy", fields: [updateBy], references: [userId])
+
+  users           User[]
+  rolePermissions RolePermission[]
+}
+
+model Permission {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+
+  addBy    String?
+  updateBy String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  createdBy User? @relation("PermissionCreatedBy", fields: [addBy], references: [userId])
+  updatedBy User? @relation("PermissionUpdatedBy", fields: [updateBy], references: [userId])
+
+  rolePermissions RolePermission[]
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  view         Boolean   @default(false)
+  create       Boolean   @default(false)
+  update       Boolean   @default(false)
+  delete       Boolean   @default(false)
+  addBy        String?
+  updateBy     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime?
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  createdBy User? @relation("RPCreatedBy", fields: [addBy], references: [userId])
+  updatedBy User? @relation("RPUpdatedBy", fields: [updateBy], references: [userId])
+
+  @@id([roleId, permissionId])
+}
