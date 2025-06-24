@@ -1,7 +1,8 @@
 import React from "react";
 import { Typography, Layout, Card, Input, Button } from "antd";
 import { useForm, Controller } from "react-hook-form";
-import { useAuth, LoginForm } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
+import { LoginForm } from "../types";
 
 const { Title } = Typography;
 const { Content } = Layout;

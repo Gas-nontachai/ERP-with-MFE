@@ -8,22 +8,25 @@ export async function generateRoleId(): Promise<string> {
   const dd = String(now.getDate()).padStart(2, "0");
   const mm = String(now.getMonth() + 1).padStart(2, "0");
   const yyyy = String(now.getFullYear());
-  const dateStr = `${dd}${mm}${yyyy}`; // เช่น 23062025
+  const dateStr = `${dd}${mm}${yyyy}`; // เช่น 24062025
+  const prefix = `R${dateStr}`;
 
-  const startOfDay = new Date(now.setHours(0, 0, 0, 0));
-  const endOfDay = new Date(now.setHours(23, 59, 59, 999));
+  let sequence = 1;
+  let roleId: string;
 
-  const rolesTodayCount = await prisma.role.count({
-    where: {
-      createdAt: {
-        gte: startOfDay,
-        lte: endOfDay,
-      },
-    },
-  });
+  while (true) {
+    const seqStr = sequence.toString().padStart(3, "0");
+    roleId = `${prefix}${seqStr}`;
 
-  const sequence = (rolesTodayCount + 1).toString().padStart(3, "0"); // เช่น 001
-  const roleId = `R${dateStr}${sequence}`;
+    const exists = await prisma.role.findUnique({
+      where: { id: roleId },
+    });
+
+    if (!exists) break;
+
+    sequence++;
+  }
+
   return roleId;
 }
 

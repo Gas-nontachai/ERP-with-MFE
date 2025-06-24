@@ -2,12 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { message } from "antd";
 import { useAuthStore } from "../store/authStore";
+import { LoginForm } from "../types";
 import { useNavigate } from "react-router-dom";
-
-export type LoginForm = {
-  email: string;
-  password: string;
-};
 
 export const useAuth = () => {
   const setAuth = useAuthStore((state) => state.setAuth);

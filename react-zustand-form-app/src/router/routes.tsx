@@ -2,6 +2,7 @@
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
+import Role from "../pages/Role";
 import { RouteItem } from "../types";
 
 export const routeConfig: RouteItem[] = [
@@ -14,9 +15,18 @@ export const routeConfig: RouteItem[] = [
     protected: true,
   },
   {
+    path: "/role",
+    element: <Role />,
+    label: "บทบาท",
+    showInMenu: true,
+    layout: "main",
+    protected: true,
+  },
+  {
     path: "/profile",
     element: <Profile />,
     layout: "main",
+    protected: true,
   },
   {
     path: "/login",
