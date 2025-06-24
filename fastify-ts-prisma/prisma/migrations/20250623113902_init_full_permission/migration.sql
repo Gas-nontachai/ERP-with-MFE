@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE `RolePermission` ADD COLUMN `create` BOOLEAN NOT NULL DEFAULT false,
-    ADD COLUMN `delete` BOOLEAN NOT NULL DEFAULT false,
-    ADD COLUMN `update` BOOLEAN NOT NULL DEFAULT false,
-    ADD COLUMN `view` BOOLEAN NOT NULL DEFAULT false;

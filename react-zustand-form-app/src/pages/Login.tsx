@@ -1,12 +1,22 @@
-import { Typography, Layout, Card, Form, Input, Button } from "antd";
+import React from "react";
+import { Typography, Layout, Card, Input, Button } from "antd";
+import { useForm, Controller } from "react-hook-form";
+import { useAuth, LoginForm } from "../hooks/useAuth";
 
 const { Title } = Typography;
 const { Content } = Layout;
 
 export default function Login() {
-  const onFinish = (values: any) => {
-    // Handle login logic here
-    console.log("Login values:", values);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>();
+
+  const loginMutation = useAuth();
+
+  const onSubmit = (data: LoginForm) => {
+    loginMutation.mutate(data);
   };
 
   return (
@@ -16,38 +26,46 @@ export default function Login() {
           <Title level={2} style={{ textAlign: "center" }}>
             Login
           </Title>
-          <Form
-            name="login"
-            layout="vertical"
-            onFinish={onFinish}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="Username"
-              name="username"
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div style={{ marginBottom: 16 }}>
+              <label>Email</label>
+              <Controller
+                name="email"
+                control={control}
+                rules={{ required: "Please input your email!" }}
+                render={({ field }) => <Input {...field} />}
+              />
+              {errors.email && (
+                <p style={{ color: "red", margin: 0 }}>
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
 
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                { required: true, message: "Please input your password!" },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+            <div style={{ marginBottom: 16 }}>
+              <label>Password</label>
+              <Controller
+                name="password"
+                control={control}
+                rules={{ required: "Please input your password!" }}
+                render={({ field }) => <Input.Password {...field} />}
+              />
+              {errors.password && (
+                <p style={{ color: "red", margin: 0 }}>
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
 
-            <Form.Item>
-              <Button type="primary" htmlType="submit" block>
-                Log in
-              </Button>
-            </Form.Item>
-          </Form>
+            <Button
+              type="primary"
+              htmlType="submit"
+              block
+              loading={loginMutation.status === "pending"}
+            >
+              Log in
+            </Button>
+          </form>
         </Card>
       </Content>
     </Layout>

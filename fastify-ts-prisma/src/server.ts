@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import fastifyJwt from "@fastify/jwt";
 import { routes } from "./routes";
 import { logRequest } from "./utils/logger";
+import cors from "@fastify/cors";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -13,6 +14,13 @@ declare module "fastify" {
 dotenv.config();
 
 const fastify = Fastify({ logger: false });
+
+fastify.register(cors, {
+  origin: process.env.FRONTEND_URL || "*",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // ถ้าต้องส่ง cookie หรือ session
+});
 
 fastify.register(fastifyJwt, {
   secret: process.env.JWT_SECRET || "supersecret",
