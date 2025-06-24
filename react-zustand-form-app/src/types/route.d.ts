@@ -7,4 +7,5 @@ export type RouteItem = {
   showInMenu?: boolean;
   layout?: "main" | "auth";
   protected?: boolean;
+  icon?: React.ReactNode;
 };

@@ -6,6 +6,14 @@ import Menu from "../pages/Menu";
 import Role from "../pages/Role";
 import { RouteItem } from "../types";
 
+import {
+  HomeOutlined,
+  UserOutlined,
+  SettingOutlined,
+  AppstoreOutlined,
+  LoginOutlined,
+} from "@ant-design/icons";
+
 export const routeConfig: RouteItem[] = [
   {
     path: "/",
@@ -14,6 +22,7 @@ export const routeConfig: RouteItem[] = [
     showInMenu: true,
     layout: "main",
     protected: true,
+    icon: <HomeOutlined />,
   },
   {
     path: "/role",
@@ -22,6 +31,7 @@ export const routeConfig: RouteItem[] = [
     showInMenu: true,
     layout: "main",
     protected: true,
+    icon: <UserOutlined />,
   },
   {
     path: "/menu",
@@ -30,16 +40,19 @@ export const routeConfig: RouteItem[] = [
     showInMenu: true,
     layout: "main",
     protected: true,
+    icon: <AppstoreOutlined />,
   },
   {
     path: "/profile",
     element: <Profile />,
     layout: "main",
     protected: true,
+    icon: <SettingOutlined />,
   },
   {
     path: "/login",
     element: <Login />,
     layout: "auth",
+    icon: <LoginOutlined />,
   },
 ];

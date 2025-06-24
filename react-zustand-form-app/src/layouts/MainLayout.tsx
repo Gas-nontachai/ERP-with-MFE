@@ -1,16 +1,20 @@
 // src/layouts/MainLayout.tsx
-import Navbar from "../components/Navbar";
-import { ReactNode } from "react";
+import { Layout } from "antd";
+import Sidebar from "../components/Sidebar";
 
-type Props = {
-  children: ReactNode;
-};
+const { Content } = Layout;
 
-const MainLayout = ({ children }: Props) => (
-  <>
-    <Navbar />
-    <main>{children}</main>
-  </>
-);
-
-export default MainLayout;
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sidebar />
+      <Layout>
+        <Content>{children}</Content>
+      </Layout>
+    </Layout>
+  );
+}
