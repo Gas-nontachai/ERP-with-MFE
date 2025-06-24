@@ -12,7 +12,6 @@ generator client {
 //   provider      = "prisma-client-js"
 //   binaryTargets = ["native"]
 // }
-
 model User {
   userId    String    @id @default(cuid())
   email     String    @unique
@@ -25,12 +24,12 @@ model User {
   role   Role   @relation(fields: [roleId], references: [id])
 
   // Reverse relations for audit fields
-  rolesCreated       Role[]           @relation("RoleCreatedBy")
-  rolesUpdated       Role[]           @relation("RoleUpdatedBy")
-  permissionsCreated Permission[]     @relation("PermissionCreatedBy")
-  permissionsUpdated Permission[]     @relation("PermissionUpdatedBy")
-  rpCreated          RolePermission[] @relation("RPCreatedBy")
-  rpUpdated          RolePermission[] @relation("RPUpdatedBy")
+  rolesCreated       Role[]       @relation("RoleCreatedBy")
+  rolesUpdated       Role[]       @relation("RoleUpdatedBy")
+  menusCreated       Menu[]       @relation("MenuCreatedBy")
+  menusUpdated       Menu[]       @relation("MenuUpdatedBy")
+  permissionsCreated Permission[] @relation("RPCreatedBy")
+  permissionsUpdated Permission[] @relation("RPUpdatedBy")
 }
 
 model Role {
@@ -47,11 +46,11 @@ model Role {
   createdBy User? @relation("RoleCreatedBy", fields: [addBy], references: [userId])
   updatedBy User? @relation("RoleUpdatedBy", fields: [updateBy], references: [userId])
 
-  users           User[]
-  rolePermissions RolePermission[]
+  users       User[]
+  permissions Permission[]
 }
 
-model Permission {
+model Menu {
   id          String  @id @default(cuid())
   name        String  @unique
   description String?
@@ -62,29 +61,32 @@ model Permission {
   createdAt DateTime  @default(now())
   updatedAt DateTime?
 
-  createdBy User? @relation("PermissionCreatedBy", fields: [addBy], references: [userId])
-  updatedBy User? @relation("PermissionUpdatedBy", fields: [updateBy], references: [userId])
+  createdBy User? @relation("MenuCreatedBy", fields: [addBy], references: [userId])
+  updatedBy User? @relation("MenuUpdatedBy", fields: [updateBy], references: [userId])
 
-  rolePermissions RolePermission[]
+  permissions Permission[]
 }
 
-model RolePermission {
-  roleId       String
-  permissionId String
-  view         Boolean   @default(false)
-  create       Boolean   @default(false)
-  update       Boolean   @default(false)
-  delete       Boolean   @default(false)
-  addBy        String?
-  updateBy     String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime?
+model Permission {
+  roleId String
+  menuId String
 
-  role       Role       @relation(fields: [roleId], references: [id])
-  permission Permission @relation(fields: [permissionId], references: [id])
+  view   Boolean @default(false)
+  create Boolean @default(false)
+  update Boolean @default(false)
+  delete Boolean @default(false)
+
+  addBy    String?
+  updateBy String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  role Role @relation(fields: [roleId], references: [id])
+  menu Menu @relation(fields: [menuId], references: [id])
 
   createdBy User? @relation("RPCreatedBy", fields: [addBy], references: [userId])
   updatedBy User? @relation("RPUpdatedBy", fields: [updateBy], references: [userId])
 
-  @@id([roleId, permissionId])
+  @@id([roleId, menuId])
 }

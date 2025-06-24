@@ -17,7 +17,7 @@ async function main() {
     create: {
       id: adminRoleId,
       name: "admin",
-      description: "can do every thing",
+      description: "can do everything",
       createdAt: now,
     },
   });
@@ -37,38 +37,44 @@ async function main() {
     },
   });
 
-  // 3. สร้าง Permissions ตัวอย่าง
-  const permissions = [
-    { id: "P23062025001", name: "user" },
-    { id: "P23062025002", name: "role" },
-    { id: "P23062025003", name: "permission" },
+  // 3. สร้าง Menus ตัวอย่าง
+  const menus = [
+    { id: "M23062025001", name: "users", description: "about users" },
+    { id: "M23062025002", name: "roles", description: "about roles" },
+    { id: "M23062025003", name: "menus", description: "about menus" },
+    {
+      id: "M23062025004",
+      name: "permissions",
+      description: "about permissions",
+    },
   ];
 
-  for (const perm of permissions) {
-    // สร้าง permission
-    await prisma.permission.upsert({
-      where: { id: perm.id },
+  for (const menu of menus) {
+    // สร้าง Menu
+    await prisma.menu.upsert({
+      where: { id: menu.id },
       update: {},
       create: {
-        id: perm.id,
-        name: perm.name,
+        id: menu.id,
+        name: menu.name,
+        description: menu.description,
         addBy: adminUserId,
         createdAt: now,
       },
     });
 
-    // สร้าง RolePermission พร้อมสิทธิ์ทั้งหมด (view, create, update, delete = true)
-    await prisma.rolePermission.upsert({
+    // สร้าง Permission (แทน RolePermission เดิม)
+    await prisma.permission.upsert({
       where: {
-        roleId_permissionId: {
+        roleId_menuId: {
           roleId: adminRoleId,
-          permissionId: perm.id,
+          menuId: menu.id,
         },
       },
       update: {},
       create: {
         roleId: adminRoleId,
-        permissionId: perm.id,
+        menuId: menu.id,
         view: true,
         create: true,
         update: true,

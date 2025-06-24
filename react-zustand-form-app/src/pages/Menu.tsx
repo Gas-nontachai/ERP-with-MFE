@@ -11,46 +11,46 @@ import {
 } from "antd";
 import { Controller } from "react-hook-form";
 import { useState, useMemo } from "react";
-import { PermissionData } from "../types";
-import { usePermissions } from "../hooks/usePermissions";
+import { MenuData } from "../types";
+import { useMenus } from "../hooks/useMenus";
 
 const { Title } = Typography;
 const { Content } = Layout;
 const { Search } = Input;
 
-export default function PermissionPage() {
+export default function MenuPage() {
   const {
-    permissions,
+    menus,
     isLoading,
     control,
     handleSubmit,
     onSubmit,
-    createPermission,
-    deletePermission,
-    editingPermissionId,
+    createMenu,
+    deleteMenu,
+    editingMenuId,
     startEdit,
     cancelEdit,
-    updatePermission,
-  } = usePermissions();
+    updateMenu,
+  } = useMenus();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [formVisible, setFormVisible] = useState(false);
 
-  const filteredPermissions = useMemo(() => {
-    if (!searchTerm.trim()) return permissions;
+  const filteredMenus = useMemo(() => {
+    if (!searchTerm.trim()) return menus;
     const lowerSearch = searchTerm.toLowerCase();
-    return permissions.filter(
-      (permission) =>
-        permission.name.toLowerCase().includes(lowerSearch) ||
-        (permission.description?.toLowerCase().includes(lowerSearch) ?? false)
+    return menus.filter(
+      (menu) =>
+        menu.name.toLowerCase().includes(lowerSearch) ||
+        (menu.description?.toLowerCase().includes(lowerSearch) ?? false)
     );
-  }, [permissions, searchTerm]);
+  }, [menus, searchTerm]);
 
   // เมื่อแก้ไขเสร็จ หรือกด cancel ให้เปิดฟอร์มอัตโนมัติ (ถ้าปิดอยู่)
   // อันนี้ optional ถ้าต้องการให้ฟอร์มเปิดอัตโนมัติเวลา edit
   // useEffect(() => {
-  //   if (editingPermissionId && !formVisible) setFormVisible(true);
-  // }, [editingPermissionId]);
+  //   if (editingMenuId && !formVisible) setFormVisible(true);
+  // }, [editingMenuId]);
 
   return (
     <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
@@ -63,9 +63,9 @@ export default function PermissionPage() {
         >
           {formVisible
             ? "Hide Form"
-            : editingPermissionId
-            ? "Show Edit Permission"
-            : "Show Create Permission"}
+            : editingMenuId
+            ? "Show Edit Menu"
+            : "Show Create Menu"}
         </Button>
 
         {formVisible && (
@@ -74,7 +74,7 @@ export default function PermissionPage() {
             style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)", marginBottom: 24 }}
           >
             <Title level={3}>
-              {editingPermissionId ? "Edit Permission" : "Create Permission"}
+              {editingMenuId ? "Edit Menu" : "Create Menu"}
             </Title>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
@@ -84,7 +84,7 @@ export default function PermissionPage() {
                 render={({ field }) => (
                   <Input
                     {...field}
-                    placeholder="Permission Name"
+                    placeholder="Menu Name"
                     style={{ marginBottom: 12 }}
                   />
                 )}
@@ -105,13 +105,11 @@ export default function PermissionPage() {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  loading={
-                    createPermission.isPending || updatePermission.isPending
-                  }
+                  loading={createMenu.isPending || updateMenu.isPending}
                 >
-                  {editingPermissionId ? "Update" : "Create"}
+                  {editingMenuId ? "Update" : "Create"}
                 </Button>
-                {editingPermissionId && (
+                {editingMenuId && (
                   <Button
                     onClick={() => {
                       cancelEdit();
@@ -132,7 +130,7 @@ export default function PermissionPage() {
           style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
           title={
             <Search
-              placeholder="Search permissions"
+              placeholder="Search menus"
               allowClear
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{ width: 300 }}
@@ -141,7 +139,7 @@ export default function PermissionPage() {
           }
         >
           <Table
-            dataSource={filteredPermissions}
+            dataSource={filteredMenus}
             rowKey="id"
             loading={isLoading}
             locale={{
@@ -149,8 +147,8 @@ export default function PermissionPage() {
                 <Empty
                   description={
                     searchTerm
-                      ? `No permissions found for "${searchTerm}"`
-                      : "No permissions available"
+                      ? `No menus found for "${searchTerm}"`
+                      : "No menus available"
                   }
                 />
               ),
@@ -169,7 +167,7 @@ export default function PermissionPage() {
               },
               {
                 title: "Actions",
-                render: (_: any, record: PermissionData) => (
+                render: (_: any, record: MenuData) => (
                   <Space>
                     <Button
                       size="small"
@@ -181,8 +179,8 @@ export default function PermissionPage() {
                       Edit
                     </Button>
                     <Popconfirm
-                      title="Are you sure to delete this permission?"
-                      onConfirm={() => deletePermission.mutate(record.id)}
+                      title="Are you sure to delete this menu?"
+                      onConfirm={() => deleteMenu.mutate(record.id)}
                     >
                       <Button danger size="small">
                         Delete

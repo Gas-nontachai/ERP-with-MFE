@@ -1,8 +1,8 @@
-export type PermissionForm = {
+export type MenuForm = {
   name: string;
   description: string;
 };
-export type PermissionData = {
+export type MenuData = {
   id: string;
   name: string;
   description: string;

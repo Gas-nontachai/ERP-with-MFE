@@ -1,54 +1,54 @@
 import { FastifyInstance } from "fastify";
-import { permissionController } from "../controllers";
+import { menuController } from "../controllers";
 import { checkPermission } from "../middleware/checkPermission";
 
-const scope = "permission";
+const scope = "menus";
 
-export async function permissionRoutes(fastify: FastifyInstance) {
+export async function menuRoutes(fastify: FastifyInstance) {
   fastify.get(
-    "/generatePermissionId",
+    "/generateMenuId",
     { preValidation: [fastify.authenticate, checkPermission(scope, "view")] },
-    permissionController.generatePermissionId
+    menuController.generateMenuId
   );
 
   fastify.get(
-    "/permissions",
+    `/${scope}`,
     { preValidation: [fastify.authenticate, checkPermission(scope, "view")] },
-    permissionController.getAllPermissions
+    menuController.getAllMenus
   );
 
-  fastify.get<{ Params: { permissionId: string } }>(
-    "/permissions/:permissionId",
+  fastify.get<{ Params: { menuId: string } }>(
+    `/${scope}/:menuId`,
     { preValidation: [fastify.authenticate, checkPermission(scope, "view")] },
-    permissionController.getPermissionById
+    menuController.getMenuById
   );
 
   fastify.post<{
     Body: { name: string; description: string };
   }>(
-    "/permissions",
+    `/${scope}`,
     {
       preValidation: [fastify.authenticate, checkPermission(scope, "create")],
     },
-    permissionController.createPermission
+    menuController.createMenu
   );
 
   fastify.put<{
-    Params: { permissionId: string };
+    Params: { menuId: string };
     Body: { name: string; description: string };
   }>(
-    "/permissions/:permissionId",
+    `/${scope}/:menuId`,
     {
       preValidation: [fastify.authenticate, checkPermission(scope, "update")],
     },
-    permissionController.updatePermissionById
+    menuController.updateMenuById
   );
 
-  fastify.delete<{ Params: { permissionId: string } }>(
-    "/permissions/:permissionId",
+  fastify.delete<{ Params: { menuId: string } }>(
+    `/${scope}/:menuId`,
     {
       preValidation: [fastify.authenticate, checkPermission(scope, "delete")],
     },
-    permissionController.deletePermissionById
+    menuController.deleteMenuById
   );
 }

@@ -2,7 +2,7 @@
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
-import Permission from "../pages/Permission";
+import Menu from "../pages/Menu";
 import Role from "../pages/Role";
 import { RouteItem } from "../types";
 
@@ -24,9 +24,9 @@ export const routeConfig: RouteItem[] = [
     protected: true,
   },
   {
-    path: "/permisson",
-    element: <Permission />,
-    label: "การอนุญาต",
+    path: "/menu",
+    element: <Menu />,
+    label: "เมนู",
     showInMenu: true,
     layout: "main",
     protected: true,

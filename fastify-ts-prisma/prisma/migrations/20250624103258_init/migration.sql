@@ -27,7 +27,7 @@ CREATE TABLE `Role` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Permission` (
+CREATE TABLE `Menu` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NULL,
@@ -36,14 +36,14 @@ CREATE TABLE `Permission` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NULL,
 
-    UNIQUE INDEX `Permission_name_key`(`name`),
+    UNIQUE INDEX `Menu_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `RolePermission` (
+CREATE TABLE `Permission` (
     `roleId` VARCHAR(191) NOT NULL,
-    `permissionId` VARCHAR(191) NOT NULL,
+    `menuId` VARCHAR(191) NOT NULL,
     `view` BOOLEAN NOT NULL DEFAULT false,
     `create` BOOLEAN NOT NULL DEFAULT false,
     `update` BOOLEAN NOT NULL DEFAULT false,
@@ -53,7 +53,7 @@ CREATE TABLE `RolePermission` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NULL,
 
-    PRIMARY KEY (`roleId`, `permissionId`)
+    PRIMARY KEY (`roleId`, `menuId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
@@ -66,19 +66,19 @@ ALTER TABLE `Role` ADD CONSTRAINT `Role_addBy_fkey` FOREIGN KEY (`addBy`) REFERE
 ALTER TABLE `Role` ADD CONSTRAINT `Role_updateBy_fkey` FOREIGN KEY (`updateBy`) REFERENCES `User`(`userId`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `Menu` ADD CONSTRAINT `Menu_addBy_fkey` FOREIGN KEY (`addBy`) REFERENCES `User`(`userId`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Menu` ADD CONSTRAINT `Menu_updateBy_fkey` FOREIGN KEY (`updateBy`) REFERENCES `User`(`userId`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Permission` ADD CONSTRAINT `Permission_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Permission` ADD CONSTRAINT `Permission_menuId_fkey` FOREIGN KEY (`menuId`) REFERENCES `Menu`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `Permission` ADD CONSTRAINT `Permission_addBy_fkey` FOREIGN KEY (`addBy`) REFERENCES `User`(`userId`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Permission` ADD CONSTRAINT `Permission_updateBy_fkey` FOREIGN KEY (`updateBy`) REFERENCES `User`(`userId`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `RolePermission` ADD CONSTRAINT `RolePermission_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `RolePermission` ADD CONSTRAINT `RolePermission_permissionId_fkey` FOREIGN KEY (`permissionId`) REFERENCES `Permission`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `RolePermission` ADD CONSTRAINT `RolePermission_addBy_fkey` FOREIGN KEY (`addBy`) REFERENCES `User`(`userId`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `RolePermission` ADD CONSTRAINT `RolePermission_updateBy_fkey` FOREIGN KEY (`updateBy`) REFERENCES `User`(`userId`) ON DELETE SET NULL ON UPDATE CASCADE;

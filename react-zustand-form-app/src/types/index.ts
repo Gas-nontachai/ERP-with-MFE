@@ -1,5 +1,5 @@
 export * from "./auth";
-export * from "./permission";
+export * from "./menu";
 export * from "./route";
 export * from "./role";
 export * from "./user";

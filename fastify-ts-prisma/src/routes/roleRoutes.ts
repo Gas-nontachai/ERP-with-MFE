@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { roleController } from "../controllers";
 import { checkPermission } from "../middleware/checkPermission";
 
-const scope = "role";
+const scope = "roles";
 
 export async function roleRoutes(fastify: FastifyInstance) {
   fastify.get(
@@ -12,13 +12,13 @@ export async function roleRoutes(fastify: FastifyInstance) {
   );
 
   fastify.get(
-    "/roles",
+    `/${scope}`,
     { preValidation: [fastify.authenticate, checkPermission(scope, "view")] },
     roleController.getAllRoles
   );
 
   fastify.get<{ Params: { roleId: string } }>(
-    "/roles/:roleId",
+    `/${scope}/:roleId`,
     { preValidation: [fastify.authenticate, checkPermission(scope, "view")] },
     roleController.getRoleById
   );
@@ -26,7 +26,7 @@ export async function roleRoutes(fastify: FastifyInstance) {
   fastify.post<{
     Body: { name: string; description: string };
   }>(
-    "/roles",
+    `/${scope}`,
     {
       preValidation: [fastify.authenticate, checkPermission(scope, "create")],
     },
@@ -37,7 +37,7 @@ export async function roleRoutes(fastify: FastifyInstance) {
     Params: { roleId: string };
     Body: { name: string; description: string };
   }>(
-    "/roles/:roleId",
+    `/${scope}/:roleId`,
     {
       preValidation: [fastify.authenticate, checkPermission(scope, "update")],
     },
@@ -45,7 +45,7 @@ export async function roleRoutes(fastify: FastifyInstance) {
   );
 
   fastify.delete<{ Params: { roleId: string } }>(
-    "/roles/:roleId",
+    `/${scope}/:roleId`,
     {
       preValidation: [fastify.authenticate, checkPermission(scope, "delete")],
     },
