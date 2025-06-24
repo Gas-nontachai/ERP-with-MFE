@@ -16,10 +16,23 @@ dotenv.config();
 const fastify = Fastify({ logger: false });
 
 fastify.register(cors, {
-  origin: process.env.FRONTEND_URL || "*",
+  origin: (origin, cb) => {
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://127.0.0.1:3000",
+      "http://127.0.0.1:5173",
+    ];
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Not allowed by CORS"), false);
+    }
+  },
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true, // ถ้าต้องส่ง cookie หรือ session
+  credentials: true,
 });
 
 fastify.register(fastifyJwt, {

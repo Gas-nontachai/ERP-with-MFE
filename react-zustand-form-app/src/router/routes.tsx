@@ -1,16 +1,8 @@
 // src/router/routes.tsx
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import { ReactNode } from "react";
-
-export type RouteItem = {
-  path: string;
-  element: ReactNode;
-  label?: string;
-  showInMenu?: boolean;
-  layout?: "main" | "auth"; // << เพิ่มตรงนี้
-  protected?: boolean;
-};
+import Profile from "../pages/Profile";
+import { RouteItem } from "../types";
 
 export const routeConfig: RouteItem[] = [
   {
@@ -22,8 +14,13 @@ export const routeConfig: RouteItem[] = [
     protected: true,
   },
   {
+    path: "/profile",
+    element: <Profile />,
+    layout: "main",
+  },
+  {
     path: "/login",
     element: <Login />,
-    layout: "auth", // << ไม่มี Navbar
+    layout: "auth",
   },
 ];

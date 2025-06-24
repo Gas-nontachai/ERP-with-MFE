@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { message } from "antd";
+import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 
 export type LoginForm = {
   email: string;
@@ -8,6 +10,9 @@ export type LoginForm = {
 };
 
 export const useAuth = () => {
+  const setAuth = useAuthStore((state) => state.setAuth);
+  const navigate = useNavigate();
+
   return useMutation({
     mutationFn: async (data: LoginForm) => {
       const response = await axios.post(
@@ -16,17 +21,21 @@ export const useAuth = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            // ถ้ามี token หรือ header เพิ่มเติมใส่ที่นี่ เช่น
-            // Authorization: `Bearer ${token}`,
           },
-          withCredentials: true, // ถ้าต้องส่ง cookie ข้ามโดเมน
+          withCredentials: true,
         }
       );
       return response.data;
     },
     onSuccess: (data) => {
+      const { token, user } = data;
+      setAuth(token, user);
+
+      localStorage.setItem("accessToken", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
       message.success("Login successful!");
-      console.log("Logged in:", data);
+      navigate("/");
     },
     onError: (error: any) => {
       message.error(error?.response?.data?.message || "Login failed.");
