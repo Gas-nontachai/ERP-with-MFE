@@ -2,6 +2,7 @@
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
+import Permission from "../pages/Permission";
 import Menu from "../pages/Menu";
 import Role from "../pages/Role";
 import { RouteItem } from "../types";
@@ -12,6 +13,7 @@ import {
   SettingOutlined,
   AppstoreOutlined,
   LoginOutlined,
+  FundViewOutlined,
 } from "@ant-design/icons";
 
 export const routeConfig: RouteItem[] = [
@@ -41,6 +43,15 @@ export const routeConfig: RouteItem[] = [
     layout: "main",
     protected: true,
     icon: <AppstoreOutlined />,
+  },
+  {
+    path: "/permission",
+    element: <Permission />,
+    label: "สิทธิ์การเข้าถึง",
+    showInMenu: true,
+    layout: "main",
+    protected: true,
+    icon: <FundViewOutlined />,
   },
   {
     path: "/profile",

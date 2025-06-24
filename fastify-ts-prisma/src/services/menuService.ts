@@ -9,7 +9,7 @@ export async function generateMenuId(): Promise<string> {
   const mm = String(now.getMonth() + 1).padStart(2, "0");
   const yyyy = String(now.getFullYear());
   const dateStr = `${dd}${mm}${yyyy}`; // เช่น 24062025
-  const prefix = `P${dateStr}`;
+  const prefix = `M${dateStr}`;
 
   let sequence = 1;
   let menuId: string;
@@ -30,9 +30,7 @@ export async function generateMenuId(): Promise<string> {
   return menuId;
 }
 
-export async function getMenuById(
-  menuId: string
-): Promise<Menu | null> {
+export async function getMenuById(menuId: string): Promise<Menu | null> {
   return prisma.menu.findUnique({
     where: { id: menuId },
   });
@@ -75,9 +73,7 @@ export async function updateMenuById(
   });
 }
 
-export async function deleteMenuById(
-  menuId: string
-): Promise<void> {
+export async function deleteMenuById(menuId: string): Promise<void> {
   await prisma.menu.delete({
     where: { id: menuId },
   });
