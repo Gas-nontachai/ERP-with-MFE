@@ -9,7 +9,7 @@ export default function Home() {
       <Content style={{ maxWidth: 600, margin: "40px auto", width: "100%" }}>
         <Card>
           <Title level={2} style={{ textAlign: "center" }}>
-            HOME
+            ระบบจัดการผู้ใช้และสิทธิ์ (User Management System)
           </Title>
         </Card>
       </Content>
