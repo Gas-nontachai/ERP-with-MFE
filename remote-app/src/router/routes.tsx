@@ -11,7 +11,6 @@ import {
   UserOutlined,
   SettingOutlined,
   AppstoreOutlined,
-  LoginOutlined,
   FundViewOutlined,
 } from "@ant-design/icons";
 

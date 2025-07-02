@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { create } from "zustand";
+const UserManageApp = React.lazy(() => import("user_manage/UserManageApp"));
 
 type CounterState = {
   count: number;
@@ -50,16 +51,13 @@ const Home: React.FC = () => {
               {t("home.increment", "Increment")}: {count}
             </button>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-            <input
-              className="input input-bordered w-full"
-              placeholder={t("form.name")}
-              {...register("name", { required: true })}
-            />
-            <button className="btn btn-success w-full" type="submit">
-              {t("form.submit")}
-            </button>
-          </form>
+          <div className="p-4">
+            <h1 className="text-2xl font-bold mb-4">User Management</h1>
+            <Suspense fallback={<div>Loading...</div>}>
+              <h1>Load done </h1>
+              <UserManageApp />
+            </Suspense>
+          </div>
         </div>
       </div>
     </div>
