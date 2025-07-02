@@ -37,7 +37,7 @@ export default function Profile() {
         </div>
         <div className="flex items-center gap-3">
           <BadgeInfo className="w-5 h-5 text-secondary" />
-          <span>Role ID: {user.roleId}</span>
+          <span>Role ID: {user.role.name}</span>
         </div>
         <div className="flex items-center gap-3">
           <CalendarDays className="w-5 h-5 text-success" />

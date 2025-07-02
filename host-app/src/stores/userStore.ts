@@ -1,11 +1,5 @@
 import { create } from "zustand";
-
-type User = {
-  id: string;
-  username: string;
-  token: string;
-  // เพิ่มเติมข้อมูล user ตามต้องการ
-};
+import { User } from "../types";
 
 type StoreState = {
   user: User | null;

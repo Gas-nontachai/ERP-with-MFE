@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { userController } from "../controllers";
 import { checkPermission } from "../middleware/checkPermission";
 
-const scope = "user";
+const scope = "users";
 
 export async function userRoutes(fastify: FastifyInstance) {
   fastify.get(

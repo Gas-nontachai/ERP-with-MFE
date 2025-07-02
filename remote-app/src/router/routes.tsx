@@ -4,6 +4,7 @@ import Profile from "../pages/Profile";
 import Permission from "../pages/Permission";
 import Menu from "../pages/Menu";
 import Role from "../pages/Role";
+import User from "../pages/User";
 import { RouteItem } from "../types";
 
 import {
@@ -23,6 +24,15 @@ export const routeConfig: RouteItem[] = [
     layout: "main",
     protected: true,
     icon: <HomeOutlined />,
+  },
+  {
+    path: "/user",
+    element: <User />,
+    label: "ผู้ใช้",
+    showInMenu: true,
+    layout: "main",
+    protected: true,
+    icon: <UserOutlined />,
   },
   {
     path: "/role",

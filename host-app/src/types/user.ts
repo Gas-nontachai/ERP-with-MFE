@@ -4,7 +4,7 @@ export type User = {
   password?: string;
   name: string;
   roleId: string;
-  role: any;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
+  role?: any;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 };

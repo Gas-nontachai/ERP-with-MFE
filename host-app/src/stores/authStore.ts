@@ -1,14 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-type User = {
-  userId: string;
-  email: string;
-  name: string;
-  roleId: string;
-  createdAt: Date | string;
-  updatedAt: Date | string;
-};
+import { User } from "../types";
 
 type AuthState = {
   token: string | null;

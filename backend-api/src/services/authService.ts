@@ -32,7 +32,7 @@ export async function registerUser(
 }
 
 export async function findUserByEmail(email: string) {
-  return prisma.user.findUnique({ where: { email } });
+  return prisma.user.findUnique({ where: { email }, include: { role: true } });
 }
 
 export async function findUserById(userId: string) {
