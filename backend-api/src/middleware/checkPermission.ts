@@ -19,13 +19,14 @@ export function checkPermission(
   action: "view" | "create" | "update" | "delete"
 ) {
   return async function (request: FastifyRequest, reply: FastifyReply) {
-    const user = request.user as AuthUser;
-    if (!user) {
+    const authUser = request.user as AuthUser;
+
+    if (!authUser) {
       return reply.status(401).send({ error: "Unauthorized" });
     }
 
     const userWithRole = await prisma.user.findUnique({
-      where: { userId: user.userId },
+      where: { userId: authUser.user.userId },
       include: {
         role: {
           include: {
