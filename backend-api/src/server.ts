@@ -47,8 +47,8 @@ fastify.decorate("authenticate", async function (req: any, res: any) {
   }
 });
 
-fastify.addHook("preHandler", async (request) => {
-  logRequest(request);
+fastify.addHook("preHandler", async (request, reply) => {
+  logRequest(request, reply);
 });
 
 fastify.register(routes);

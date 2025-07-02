@@ -1,0 +1,11 @@
+{
+    "hello": "Hello from react-query!",
+    "home": {
+        "title": "Micro Frontend Host App",
+        "increment": "increment"
+    },
+    "form": {
+        "submit": "submit",
+        "name": "name"
+    }
+}

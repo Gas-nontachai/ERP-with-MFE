@@ -6,15 +6,19 @@ import { roleRoutes } from "./roleRoutes";
 import { userRoutes } from "./userRoutes";
 
 export async function routes(fastify: FastifyInstance) {
-  fastify.get(
-    "/",
-    async () =>
-      `Congratulations! Your Fastify server ${process.env.PORT} is running.`
+  fastify.get("/", async () => {
+    return `Congratulations! Your Fastify server ${process.env.PORT} is running.`;
+  });
+
+  // Register routes with /api prefix
+  fastify.register(
+    async (apiScope) => {
+      await authRoutes(apiScope);
+      await menuRoutes(apiScope);
+      await permissionRoutes(apiScope);
+      await roleRoutes(apiScope);
+      await userRoutes(apiScope);
+    },
+    { prefix: "/api" }
   );
-  // เรียกใช้ route module ต่างๆ ที่นี่
-  await authRoutes(fastify);
-  await menuRoutes(fastify);
-  await permissionRoutes(fastify);
-  await roleRoutes(fastify);
-  await userRoutes(fastify);
 }
