@@ -1,20 +1,18 @@
-// src/components/Sidebar.tsx
 import { Layout, Menu, Button } from "antd";
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { routeConfig } from "../router/routes";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
 const { Sider } = Layout;
 
-export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+type SidebarProps = {
+  section: string;
+  setSection: (section: string) => void;
+};
 
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
+export default function Sidebar({ section, setSection }: SidebarProps) {
+  const [collapsed, setCollapsed] = useState(false);
+  const toggleCollapsed = () => setCollapsed(!collapsed);
 
   return (
     <Sider
@@ -26,11 +24,10 @@ export default function Sidebar() {
         borderRight: "1px solid #f0f0f0",
         display: "flex",
         flexDirection: "column",
-        height: "100vh", // เต็มความสูง viewport
+        height: "100vh",
         padding: 0,
       }}
     >
-      {/* Header: ปุ่ม toggle */}
       <div
         style={{
           padding: "10px",
@@ -45,17 +42,15 @@ export default function Sidebar() {
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         />
       </div>
-
-      {/* เมนูหลัก */}
       <Menu
         theme="light"
         mode="inline"
-        selectedKeys={[location.pathname]}
-        onClick={({ key }) => navigate(key)}
+        selectedKeys={[section]}
+        onClick={({ key }) => setSection(key)}
         style={{
           backgroundColor: "#fff",
-          flexGrow: 1, // ขยายเต็มพื้นที่กลาง
-          overflowY: "auto", // scroll ถ้าเมนูเยอะ
+          flexGrow: 1,
+          overflowY: "auto",
           borderRight: 0,
         }}
         items={routeConfig

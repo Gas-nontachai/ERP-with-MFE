@@ -1,13 +1,7 @@
-// App.tsx
-import { BrowserRouter as Router } from "react-router-dom";
-import AppRoutes from "./router";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
-  return (
-    <Router>
-      <AppRoutes />
-    </Router>
-  );
+  return <MainLayout />;
 }
 
 export default App;

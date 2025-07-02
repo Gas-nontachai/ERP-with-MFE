@@ -1,6 +1,4 @@
-// src/components/RouteWrapper.tsx
 import { ReactNode } from "react";
-import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 
 type RouteWrapperProps = {
@@ -8,9 +6,10 @@ type RouteWrapperProps = {
   layout?: "main" | "auth";
 };
 
+// SPA section: ไม่ต้อง wrap MainLayout ซ้ำ
 const RouteWrapper = ({ children, layout = "main" }: RouteWrapperProps) => {
   if (layout === "auth") return <AuthLayout>{children}</AuthLayout>;
-  return <MainLayout>{children}</MainLayout>;
+  return <>{children}</>;
 };
 
 export default RouteWrapper;

@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Typography, Card, Button, Select, Spin } from "antd";
+import { Typography, Card, Select, Spin } from "antd";
 import RolePermissionTable from "../components/RolePermissionTable";
 import { useRoles } from "../hooks/useRoles";
-import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 const { Option } = Select;
 
 export default function RolePermissionPage() {
-  const navigate = useNavigate();
   const { roles, isLoading } = useRoles();
   const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
 
@@ -45,10 +43,6 @@ export default function RolePermissionPage() {
         )}
 
         {selectedRoleId && <RolePermissionTable roleId={selectedRoleId} />}
-
-        <Button style={{ marginTop: 16 }} onClick={() => navigate(-1)}>
-          Back
-        </Button>
       </Card>
     </div>
   );
