@@ -23,9 +23,9 @@ export const useAuth = () => {
       );
       return response.data;
     },
-    onSuccess: (data: { token: any; user: any }) => {
-      const { token, user } = data;
-      setAuth(token, user);
+    onSuccess: (data: { token: any; user: any; permission: any }) => {
+      const { token, user, permission } = data;
+      setAuth(token, user, permission);
 
       localStorage.setItem("accessToken", token);
       localStorage.setItem("user", JSON.stringify(user));

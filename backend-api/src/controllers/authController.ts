@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { authService, userService } from "../services";
+import { authService, userService, permissionService } from "../services";
 
 export async function register(
   request: FastifyRequest<{
@@ -36,17 +36,22 @@ export async function login(
   const { email, password } = request.body as any;
 
   const user = await authService.findUserByEmail(email);
+  const permission = await permissionService.getPermissions({
+    where: {
+      roleId: user?.roleId,
+    },
+  });
 
   if (!user) return reply.status(401).send({ error: "Invalid email" });
 
   const isMatch = await authService.verifyPassword(password, user.password);
   if (!isMatch) return reply.status(401).send({ error: "Wrong password" });
 
-  const token = fastify.jwt.sign({ userId: user.userId, email: user.email });
-
   // ตัด password ออกก่อนส่ง
   const { password: _pw, ...safeUser } = user;
-  reply.send({ token, user: safeUser });
+
+  const token = fastify.jwt.sign({ user: safeUser, permission });
+  reply.send({ token, user: safeUser, permission });
 }
 
 export async function getMe(request: FastifyRequest, reply: FastifyReply) {

@@ -4,7 +4,10 @@ import { PermissionInput } from "../types";
 const prisma = new PrismaClient();
 
 export async function getPermissions(query: any): Promise<Permission[]> {
-  return prisma.permission.findMany({ ...query });
+  return prisma.permission.findMany({
+    ...query,
+    include: { role: true, menu: true },
+  });
 }
 
 export async function updatePermissionBy(
