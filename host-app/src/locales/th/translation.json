@@ -1,0 +1,11 @@
+{
+    "hello": "Hello from react-query!",
+    "home": {
+        "title": "แอปโฮสต์ไมโครฟรอนต์เอนด์",
+        "increment": "เพิ่มขึ้น"
+    },
+    "form": {
+        "submit": "ส่ง",
+        "name": "ชื่อ"
+    }
+}
