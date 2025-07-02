@@ -25,7 +25,7 @@ module.exports = {
     proxy: [
       {
         context: ["/api"],
-        target: "http://localhost:5120",
+        target: "http://host.docker.internal:5120",
         changeOrigin: true,
       },
     ],
