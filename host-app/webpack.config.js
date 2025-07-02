@@ -91,6 +91,11 @@ module.exports = {
           eager: true,
           requiredVersion: "^4.1.5",
         },
+        "@tanstack/react-query": {
+          singleton: true,
+          eager: true,
+          requiredVersion: "^5.0.0",
+        },
       },
     }),
   ],
