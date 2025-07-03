@@ -1,5 +1,75 @@
 {
     "home": {
-        "title": "ระบบจัดการผู้ใช้และสิทธิ์"
+        "title": "ระบบจัดการผู้ใช้และสิทธิ์การเข้าถึง"
+    },
+    "action": {
+        "title": "การดำเนินการ",
+        "edit": "แก้ไข",
+        "delete": "ลบ",
+        "delete_confirm": "ยืนยันการลบ?",
+        "update": "อัปเดต",
+        "create": "สร้าง",
+        "cancel": "ยกเลิก",
+        "hide_form": "ซ่อนฟอร์ม",
+        "show_edit_form": "แสดงฟอร์มแก้ไข",
+        "show_create_form": "แสดงฟอร์มสร้าง",
+        "save": "บันทึก",
+        "updated": "อัปเดตสำเร็จ",
+        "update_failed": "อัปเดตล้มเหลว"
+    },
+    "slider": {
+        "home": "หน้าหลัก",
+        "user": "ผู้ใช้",
+        "role": "บทบาท",
+        "menu": "เมนู",
+        "permission": "สิทธิ์"
+    },
+    "user": {
+        "name": "ชื่อ",
+        "email": "อีเมล",
+        "role": "บทบาท",
+        "name_required": "กรุณากรอกชื่อ",
+        "name_placeholder": "กรอกชื่อ",
+        "email_placeholder": "กรอกอีเมล",
+        "password_placeholder": "กรอกรหัสผ่าน",
+        "password_required": "กรุณากรอกรหัสผ่าน",
+        "role_placeholder": "เลือกบทบาท",
+        "search_placeholder": "ค้นหาผู้ใช้...",
+        "no_users_found": "ไม่พบผู้ใช้ที่ตรงกับ '{{searchTerm}}'",
+        "no_users_available": "ยังไม่มีผู้ใช้",
+        "delete_confirm": "คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้นี้?"
+    },
+    "role": {
+        "name_required": "กรุณากรอกชื่อบทบาท",
+        "name_placeholder": "กรอกชื่อบทบาท",
+        "description_placeholder": "กรอกรายละเอียดบทบาท",
+        "search_placeholder": "ค้นหาบทบาท...",
+        "no_roles_found": "ไม่พบบทบาทที่ตรงกับ '{{search}}'",
+        "no_roles_available": "ยังไม่มีบทบาท"
+    },
+    "menu": {
+        "name": "ชื่อ",
+        "name_required": "ต้องระบุชื่อเมนู",
+        "name_placeholder": "กรอกชื่อเมนู",
+        "description_placeholder": "กรอกคำอธิบาย",
+        "search_placeholder": "ค้นหาเมนู...",
+        "no_menus_available": "ไม่มีเมนู",
+        "no_menus_found": "ไม่พบเมนู",
+        "description": "คำอธิบาย"
+    },
+    "permission": {
+        "title": "จัดการสิทธิ์ตามบทบาท",
+        "select_role": "เลือกบทบาท",
+        "menu_name": {
+            "title": "ชื่อเมนู",
+            "user": "ผู้ใช้",
+            "role": "บทบาท",
+            "menu": "เมนู",
+            "permission": "สิทธิ์"
+        },
+        "view": "ดู",
+        "create": "สร้าง",
+        "update": "แก้ไข",
+        "delete": "ลบ"
     }
 }

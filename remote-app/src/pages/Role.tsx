@@ -13,6 +13,7 @@ import { Controller } from "react-hook-form";
 import { useState, useMemo } from "react";
 import { RoleData } from "../types";
 import { useRoles } from "../hooks/useRoles";
+import { useTranslation } from "react-i18next";
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -35,6 +36,7 @@ export default function RolePage() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [formVisible, setFormVisible] = useState(false);
+  const { t } = useTranslation();
 
   const filteredRoles = useMemo(() => {
     if (!searchTerm.trim()) return roles;
@@ -62,10 +64,10 @@ export default function RolePage() {
           type="default"
         >
           {formVisible
-            ? "Hide Form"
+            ? t("action.hide_form")
             : editingRoleId
-            ? "Show Edit Role"
-            : "Show Create Role"}
+            ? t("action.show_edit_form")
+            : t("action.show_create_form")}
         </Button>
 
         {formVisible && (
@@ -74,17 +76,17 @@ export default function RolePage() {
             style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)", marginBottom: 24 }}
           >
             <Title level={3}>
-              {editingRoleId ? "Edit Role" : "Create Role"}
+              {editingRoleId ? t("action.edit") : t("action.create")}
             </Title>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 name="name"
                 control={control}
-                rules={{ required: "Name is required" }}
+                rules={{ required: t("role.name_required") }}
                 render={({ field }) => (
                   <Input
                     {...field}
-                    placeholder="Role Name"
+                    placeholder={t("role.name_placeholder")}
                     style={{ marginBottom: 12 }}
                   />
                 )}
@@ -95,7 +97,7 @@ export default function RolePage() {
                 render={({ field }) => (
                   <Input.TextArea
                     {...field}
-                    placeholder="Description"
+                    placeholder={t("role.description_placeholder")}
                     rows={3}
                     style={{ marginBottom: 12 }}
                   />
@@ -107,7 +109,7 @@ export default function RolePage() {
                   htmlType="submit"
                   loading={createRole.isPending || updateRole.isPending}
                 >
-                  {editingRoleId ? "Update" : "Create"}
+                  {editingRoleId ? t("action.update") : t("action.create")}
                 </Button>
                 {editingRoleId && (
                   <Button
@@ -117,7 +119,7 @@ export default function RolePage() {
                       // setFormVisible(false);
                     }}
                   >
-                    Cancel
+                    {t("action.cancel")}
                   </Button>
                 )}
               </Space>
@@ -130,7 +132,7 @@ export default function RolePage() {
           style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
           title={
             <Search
-              placeholder="Search roles"
+              placeholder={t("role.search_placeholder")}
               allowClear
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{ width: 300 }}
@@ -147,8 +149,8 @@ export default function RolePage() {
                 <Empty
                   description={
                     searchTerm
-                      ? `No roles found for "${searchTerm}"`
-                      : "No roles available"
+                      ? t("role.no_roles_found", { search: searchTerm })
+                      : t("role.no_roles_available")
                   }
                 />
               ),
@@ -176,14 +178,14 @@ export default function RolePage() {
                         if (!formVisible) setFormVisible(true);
                       }}
                     >
-                      Edit
+                      {t("action.edit")}
                     </Button>
                     <Popconfirm
                       title="Are you sure to delete this role?"
                       onConfirm={() => deleteRole.mutate(record.id)}
                     >
                       <Button danger size="small">
-                        Delete
+                        {t("action.delete")}
                       </Button>
                     </Popconfirm>
                   </Space>

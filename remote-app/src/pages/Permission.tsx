@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Typography, Card, Select, Spin } from "antd";
 import RolePermissionTable from "../components/RolePermissionTable";
 import { useRoles } from "../hooks/useRoles";
+import { useTranslation } from "react-i18next";
 
 const { Title } = Typography;
-const { Option } = Select;
 
 export default function RolePermissionPage() {
   const { roles, isLoading } = useRoles();
   const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const handleChange = (value: string) => {
     setSelectedRoleId(value);
@@ -17,14 +18,14 @@ export default function RolePermissionPage() {
   return (
     <div style={{ maxWidth: 900, margin: "24px auto" }}>
       <Card>
-        <Title level={3}>Manage Permissions by Role</Title>
+        <Title level={3}>{t("permission.title")}</Title>
 
         {isLoading ? (
           <Spin />
         ) : (
           <Select
             showSearch
-            placeholder="Select a role"
+            placeholder={t("permission.select_role")}
             optionFilterProp="children"
             onChange={handleChange}
             style={{ width: "100%", marginBottom: 16 }}
@@ -33,13 +34,11 @@ export default function RolePermissionPage() {
               typeof option?.label === "string" &&
               option.label.toLowerCase().includes(input.toLowerCase())
             }
-          >
-            {roles.map((role) => (
-              <Option key={role.id} value={role.id}>
-                {role.name}
-              </Option>
-            ))}
-          </Select>
+            options={roles.map((role) => ({
+              label: role.name,
+              value: role.id,
+            }))}
+          />
         )}
 
         {selectedRoleId && <RolePermissionTable roleId={selectedRoleId} />}

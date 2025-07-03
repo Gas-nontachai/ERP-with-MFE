@@ -2,8 +2,10 @@
 import React from "react";
 import { useAuthStore } from "../stores/authStore";
 import { Mail, CalendarDays, BadgeInfo, User, Shield } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function Profile() {
+  const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
 
   if (!user) {
@@ -11,7 +13,7 @@ export default function Profile() {
       <div className="flex justify-center items-center h-screen">
         <div className="text-center">
           <span className="loading loading-spinner loading-lg text-primary mb-4" />
-          <p className="text-base-content/70">กำลังโหลดข้อมูลผู้ใช้...</p>
+          <p className="text-base-content/70">{t("profile.loading")}</p>
         </div>
       </div>
     );
@@ -22,10 +24,8 @@ export default function Profile() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2">👤 โปรไฟล์ของฉัน</h1>
-          <p className="text-base-content/70">
-            ข้อมูลส่วนตัวและการตั้งค่าบัญชี
-          </p>
+          <h1 className="text-4xl font-bold mb-2">👤 {t("profile.title")}</h1>
+          <p className="text-base-content/70">{t("profile.subtitle")}</p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
@@ -43,7 +43,7 @@ export default function Profile() {
                 {/* Name & ID */}
                 <h2 className="card-title text-2xl mb-1">{user.name}</h2>
                 <div className="badge badge-outline mb-4">
-                  ID: {user.userId}
+                  {t("profile.userId")}: {user.userId}
                 </div>
 
                 {/* Role Badge */}
@@ -60,9 +60,11 @@ export default function Profile() {
                     <div className="stat-figure text-primary">
                       <User className="w-8 h-8" />
                     </div>
-                    <div className="stat-title text-xs">สถานะ</div>
+                    <div className="stat-title text-xs">
+                      {t("profile.status_label")}
+                    </div>
                     <div className="stat-value text-primary text-lg">
-                      Active
+                      {t("profile.status_value")}
                     </div>
                   </div>
                 </div>
@@ -76,7 +78,7 @@ export default function Profile() {
               <div className="card-body">
                 <h3 className="card-title text-xl mb-6">
                   <BadgeInfo className="w-5 h-5" />
-                  ข้อมูลส่วนตัว
+                  {t("profile.details_title")}
                 </h3>
 
                 {/* Info Grid */}
@@ -86,7 +88,7 @@ export default function Profile() {
                     <label className="label">
                       <span className="label-text font-semibold flex items-center gap-2">
                         <Mail className="w-4 h-4 text-primary" />
-                        อีเมล
+                        {t("profile.email")}
                       </span>
                     </label>
                     <div className="input input-bordered flex items-center gap-2 bg-base-200">
@@ -99,7 +101,7 @@ export default function Profile() {
                     <label className="label">
                       <span className="label-text font-semibold flex items-center gap-2">
                         <BadgeInfo className="w-4 h-4 text-secondary" />
-                        รหัสผู้ใช้
+                        {t("profile.userId")}
                       </span>
                     </label>
                     <div className="input input-bordered flex items-center gap-2 bg-base-200">
@@ -112,7 +114,7 @@ export default function Profile() {
                     <label className="label">
                       <span className="label-text font-semibold flex items-center gap-2">
                         <Shield className="w-4 h-4 text-accent" />
-                        บทบาท
+                        {t("profile.role")}
                       </span>
                     </label>
                     <div className="input input-bordered flex items-center gap-2 bg-base-200">
@@ -127,7 +129,7 @@ export default function Profile() {
                     <label className="label">
                       <span className="label-text font-semibold flex items-center gap-2">
                         <CalendarDays className="w-4 h-4 text-success" />
-                        วันที่สร้าง
+                        {t("profile.createdAt")}
                       </span>
                     </label>
                     <div className="input input-bordered flex items-center gap-2 bg-base-200">

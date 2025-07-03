@@ -2,6 +2,7 @@ import { Table, Checkbox, Button, Spin, message } from "antd";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useRolePermissions } from "../hooks/usePermissions";
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 type PermissionCheckboxes = {
   [menuId: string]: {
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export default function RolePermissionTable({ roleId }: Props) {
+  const { t } = useTranslation();
   const { menus, permissionsMap, isLoading, updatePermissions } =
     useRolePermissions(roleId);
   const { control, handleSubmit, reset } = useForm<{
@@ -31,7 +33,6 @@ export default function RolePermissionTable({ roleId }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const prevResetRef = useRef("");
 
-  // ป้องกัน reset ซ้ำซ้อนที่ทำให้เกิด render loop
   useEffect(() => {
     const defaultPerms: PermissionCheckboxes = {};
     menus.forEach((menu) => {
@@ -57,25 +58,25 @@ export default function RolePermissionTable({ roleId }: Props) {
     setSubmitting(true);
     try {
       await updatePermissions(data.permissions);
-      message.success("Permissions updated");
+      message.success(t("action.updated"));
       // oxlint-disable-next-line no-unused-vars
     } catch (error) {
-      message.error("Failed to update permissions");
+      message.error(t("action.update_failed"));
     } finally {
       setSubmitting(false);
     }
   };
 
-  if (isLoading) return <Spin />;
+  if (isLoading) return <Spin tip={t("loading")} />;
 
   const columns = [
     {
-      title: "Menu Name",
+      title: t("permission.menu_name.title"),
       dataIndex: "name",
       key: "name",
     },
     ...["view", "create", "update", "delete"].map((perm) => ({
-      title: perm.charAt(0).toUpperCase() + perm.slice(1),
+      title: t(`permission.${perm}`),
       key: perm,
       render: (_: any, record: any) => (
         <Controller
@@ -85,6 +86,7 @@ export default function RolePermissionTable({ roleId }: Props) {
             <Checkbox
               checked={field.value}
               onChange={(e) => field.onChange(e.target.checked)}
+              aria-label={t(`permission.menu_name.${perm}`)}
             />
           )}
         />
@@ -107,7 +109,7 @@ export default function RolePermissionTable({ roleId }: Props) {
         loading={submitting}
         style={{ marginTop: 16 }}
       >
-        Save Permissions
+        {t("action.save")}
       </Button>
     </form>
   );

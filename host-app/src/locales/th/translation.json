@@ -7,5 +7,26 @@
     "form": {
         "submit": "ส่ง",
         "name": "ชื่อ"
+    },
+    "profile": {
+        "title": "โปรไฟล์ของฉัน",
+        "subtitle": "ข้อมูลส่วนตัวและการตั้งค่าบัญชี",
+        "loading": "กำลังโหลดข้อมูลผู้ใช้...",
+        "userId": "รหัสผู้ใช้",
+        "role": "บทบาท",
+        "email": "อีเมล",
+        "createdAt": "วันที่สร้าง",
+        "status_label": "สถานะ",
+        "status_value": "ใช้งานอยู่",
+        "details_title": "ข้อมูลส่วนตัว"
+    },
+    "dropdown": {
+        "my_account": "บัญชีของฉัน",
+        "view_profile": "ดูโปรไฟล์",
+        "manage_profile": "จัดการข้อมูลส่วนตัว",
+        "check_store": "เช็คสโตร์",
+        "view_store_data": "ดูข้อมูลที่อยู่ใน store",
+        "logout": "ออกจากระบบ",
+        "logout_desc": "ลงชื่อออกจากบัญชี"
     }
 }

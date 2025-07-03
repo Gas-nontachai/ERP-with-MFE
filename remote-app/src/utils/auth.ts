@@ -1,5 +1,5 @@
 // utils/auth.ts
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "host/authStore";
 
 /**
  * ดึง access token จาก Zustand (ถ้าไม่มีใน Zustand fallback ไป localStorage)

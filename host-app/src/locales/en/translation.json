@@ -7,5 +7,26 @@
     "form": {
         "submit": "submit",
         "name": "name"
+    },
+    "profile": {
+        "title": "My Profile",
+        "subtitle": "Personal information and account settings",
+        "loading": "Loading user data...",
+        "userId": "User ID",
+        "role": "Role",
+        "email": "Email",
+        "createdAt": "Created At",
+        "status_label": "Status",
+        "status_value": "Active",
+        "details_title": "Personal Information"
+    },
+    "dropdown": {
+        "my_account": "My Account",
+        "view_profile": "View Profile",
+        "manage_profile": "Manage your personal information",
+        "check_store": "Check Store",
+        "view_store_data": "View data stored in Zustand",
+        "logout": "Logout",
+        "logout_desc": "Sign out of your account"
     }
 }

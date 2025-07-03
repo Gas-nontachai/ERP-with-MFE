@@ -15,6 +15,7 @@ import { useState, useMemo } from "react";
 import { User } from "../types";
 import { useUsers } from "../hooks/useUsers";
 import { useRoles } from "../hooks/useRoles";
+import { useTranslation } from "react-i18next";
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -22,6 +23,7 @@ const { Search } = Input;
 const { Option } = Select;
 
 export default function UserPage() {
+  const { t } = useTranslation();
   const {
     users,
     isLoading,
@@ -49,12 +51,6 @@ export default function UserPage() {
     );
   }, [users, searchTerm]);
 
-  // เมื่อแก้ไขเสร็จ หรือกด cancel ให้เปิดฟอร์มอัตโนมัติ (ถ้าปิดอยู่)
-  // อันนี้ optional ถ้าต้องการให้ฟอร์มเปิดอัตโนมัติเวลา edit
-  // useEffect(() => {
-  //   if (editingUserId && !formVisible) setFormVisible(true);
-  // }, [editingUserId]);
-
   return (
     <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
       <Content style={{ maxWidth: 800, margin: "40px auto", width: "100%" }}>
@@ -65,10 +61,10 @@ export default function UserPage() {
           type="default"
         >
           {formVisible
-            ? "Hide Form"
+            ? t("action.hide_form")
             : editingUserId
-            ? "Show Edit User"
-            : "Show Create User"}
+            ? t("action.show_edit_form")
+            : t("action.show_create_form")}
         </Button>
 
         {formVisible && (
@@ -77,17 +73,17 @@ export default function UserPage() {
             style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)", marginBottom: 24 }}
           >
             <Title level={3}>
-              {editingUserId ? "Edit User" : "Create User"}
+              {editingUserId ? t("action.edit") : t("action.create")}
             </Title>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 name="name"
                 control={control}
-                rules={{ required: "Name is required" }}
+                rules={{ required: t("user.name_required") }}
                 render={({ field }) => (
                   <Input
                     {...field}
-                    placeholder="User Name"
+                    placeholder={t("user.name_placeholder")}
                     style={{ marginBottom: 12 }}
                   />
                 )}
@@ -98,7 +94,7 @@ export default function UserPage() {
                 render={({ field }) => (
                   <Input
                     {...field}
-                    placeholder="email"
+                    placeholder={t("user.email_placeholder")}
                     style={{ marginBottom: 12 }}
                   />
                 )}
@@ -108,13 +104,13 @@ export default function UserPage() {
                 control={control}
                 rules={
                   !editingUserId
-                    ? { required: "Password is required" }
+                    ? { required: t("user.password_required") }
                     : undefined
                 }
                 render={({ field }) => (
                   <Input.Password
                     {...field}
-                    placeholder="Password"
+                    placeholder={t("user.password_placeholder")}
                     disabled={!!editingUserId}
                     style={{ marginBottom: 12 }}
                   />
@@ -128,7 +124,7 @@ export default function UserPage() {
                   <Select
                     {...field}
                     showSearch
-                    placeholder="Select a role"
+                    placeholder={t("user.role_placeholder")}
                     optionFilterProp="children"
                     style={{ width: "100%", marginBottom: 16 }}
                     filterOption={(input, option) =>
@@ -150,7 +146,7 @@ export default function UserPage() {
                   htmlType="submit"
                   loading={createUser.isPending || updateUser.isPending}
                 >
-                  {editingUserId ? "Update" : "Create"}
+                  {editingUserId ? t("action.update") : t("action.create")}
                 </Button>
                 {editingUserId && (
                   <Button
@@ -160,7 +156,7 @@ export default function UserPage() {
                       // setFormVisible(false);
                     }}
                   >
-                    Cancel
+                    {t("action.cancel")}
                   </Button>
                 )}
               </Space>
@@ -173,7 +169,7 @@ export default function UserPage() {
           style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
           title={
             <Search
-              placeholder="Search users"
+              placeholder={t("user.search_placeholder")}
               allowClear
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{ width: 300 }}
@@ -181,7 +177,7 @@ export default function UserPage() {
             />
           }
         >
-          <Table
+          <Table<User>
             dataSource={filteredUsers}
             rowKey="id"
             loading={isLoading}
@@ -190,32 +186,32 @@ export default function UserPage() {
                 <Empty
                   description={
                     searchTerm
-                      ? `No users found for "${searchTerm}"`
-                      : "No users available"
+                      ? t("user.no_users_found", { searchTerm })
+                      : t("user.no_users_available")
                   }
                 />
               ),
             }}
             columns={[
               {
-                title: "Name",
+                title: t("user.name"),
                 dataIndex: "name",
                 sorter: (a, b) => a.name.localeCompare(b.name),
                 sortDirections: ["ascend", "descend"],
               },
               {
-                title: "Email",
+                title: t("user.email"),
                 dataIndex: "email",
                 ellipsis: true,
               },
               {
-                title: "Role",
+                title: t("user.role"),
                 dataIndex: "role",
                 render: (role: { name: string }) => role?.name,
                 ellipsis: true,
               },
               {
-                title: "Actions",
+                title: t("action.title"),
                 render: (_: any, record: User) => (
                   <Space>
                     <Button
@@ -225,14 +221,14 @@ export default function UserPage() {
                         if (!formVisible) setFormVisible(true);
                       }}
                     >
-                      Edit
+                      {t("action.edit")}
                     </Button>
                     <Popconfirm
-                      title="Are you sure to delete this user?"
+                      title={t("user.delete_confirm")}
                       onConfirm={() => deleteUser.mutate(record.userId)}
                     >
                       <Button danger size="small">
-                        Delete
+                        {t("action.delete")}
                       </Button>
                     </Popconfirm>
                   </Space>

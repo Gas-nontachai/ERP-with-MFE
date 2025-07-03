@@ -13,6 +13,7 @@ import { Controller } from "react-hook-form";
 import { useState, useMemo } from "react";
 import { MenuData } from "../types";
 import { useMenus } from "../hooks/useMenus";
+import { useTranslation } from "react-i18next";
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -32,7 +33,7 @@ export default function MenuPage() {
     cancelEdit,
     updateMenu,
   } = useMenus();
-
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const [formVisible, setFormVisible] = useState(false);
 
@@ -46,12 +47,6 @@ export default function MenuPage() {
     );
   }, [menus, searchTerm]);
 
-  // เมื่อแก้ไขเสร็จ หรือกด cancel ให้เปิดฟอร์มอัตโนมัติ (ถ้าปิดอยู่)
-  // อันนี้ optional ถ้าต้องการให้ฟอร์มเปิดอัตโนมัติเวลา edit
-  // useEffect(() => {
-  //   if (editingMenuId && !formVisible) setFormVisible(true);
-  // }, [editingMenuId]);
-
   return (
     <Layout style={{ minHeight: "100vh", background: "#f0f2f5" }}>
       <Content style={{ maxWidth: 800, margin: "40px auto", width: "100%" }}>
@@ -62,10 +57,10 @@ export default function MenuPage() {
           type="default"
         >
           {formVisible
-            ? "Hide Form"
+            ? t("action.hide_form")
             : editingMenuId
-            ? "Show Edit Menu"
-            : "Show Create Menu"}
+            ? t("action.show_edit_form")
+            : t("action.show_create_form")}
         </Button>
 
         {formVisible && (
@@ -74,17 +69,17 @@ export default function MenuPage() {
             style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)", marginBottom: 24 }}
           >
             <Title level={3}>
-              {editingMenuId ? "Edit Menu" : "Create Menu"}
+              {editingMenuId ? t("action.edit") : t("action.create")}
             </Title>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 name="name"
                 control={control}
-                rules={{ required: "Name is required" }}
+                rules={{ required: t("menu.name_required") }}
                 render={({ field }) => (
                   <Input
                     {...field}
-                    placeholder="Menu Name"
+                    placeholder={t("menu.name_placeholder")}
                     style={{ marginBottom: 12 }}
                   />
                 )}
@@ -95,7 +90,7 @@ export default function MenuPage() {
                 render={({ field }) => (
                   <Input.TextArea
                     {...field}
-                    placeholder="Description"
+                    placeholder={t("menu.description_placeholder")}
                     rows={3}
                     style={{ marginBottom: 12 }}
                   />
@@ -107,7 +102,7 @@ export default function MenuPage() {
                   htmlType="submit"
                   loading={createMenu.isPending || updateMenu.isPending}
                 >
-                  {editingMenuId ? "Update" : "Create"}
+                  {editingMenuId ? t("action.update") : t("action.create")}
                 </Button>
                 {editingMenuId && (
                   <Button
@@ -117,7 +112,7 @@ export default function MenuPage() {
                       // setFormVisible(false);
                     }}
                   >
-                    Cancel
+                    {t("action.cancel")}
                   </Button>
                 )}
               </Space>
@@ -130,7 +125,7 @@ export default function MenuPage() {
           style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
           title={
             <Search
-              placeholder="Search menus"
+              placeholder={t("menu.search_placeholder")}
               allowClear
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{ width: 300 }}
@@ -138,7 +133,7 @@ export default function MenuPage() {
             />
           }
         >
-          <Table
+          <Table<MenuData>
             dataSource={filteredMenus}
             rowKey="id"
             loading={isLoading}
@@ -147,26 +142,26 @@ export default function MenuPage() {
                 <Empty
                   description={
                     searchTerm
-                      ? `No menus found for "${searchTerm}"`
-                      : "No menus available"
+                      ? t("menu.no_menus_found", { search: searchTerm })
+                      : t("menu.no_menus_available")
                   }
                 />
               ),
             }}
             columns={[
               {
-                title: "Name",
+                title: t("menu.name"),
                 dataIndex: "name",
                 sorter: (a, b) => a.name.localeCompare(b.name),
                 sortDirections: ["ascend", "descend"],
               },
               {
-                title: "Description",
+                title: t("menu.description"),
                 dataIndex: "description",
                 ellipsis: true,
               },
               {
-                title: "Actions",
+                title: t("action.title"),
                 render: (_: any, record: MenuData) => (
                   <Space>
                     <Button
@@ -176,14 +171,14 @@ export default function MenuPage() {
                         if (!formVisible) setFormVisible(true);
                       }}
                     >
-                      Edit
+                      {t("action.edit")}
                     </Button>
                     <Popconfirm
-                      title="Are you sure to delete this menu?"
+                      title={t("action.delete_confirm")}
                       onConfirm={() => deleteMenu.mutate(record.id)}
                     >
                       <Button danger size="small">
-                        Delete
+                        {t("action.delete")}
                       </Button>
                     </Popconfirm>
                   </Space>

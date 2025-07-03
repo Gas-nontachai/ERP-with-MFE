@@ -2,8 +2,10 @@
 import { Link } from "react-router-dom";
 import { User, LogOut, Settings, ChevronDown } from "lucide-react";
 import { useLogout } from "../utils/logout";
+import { useTranslation } from "react-i18next";
 
 export default function ProfileDropdown() {
+  const { t } = useTranslation();
   const logout = useLogout();
 
   return (
@@ -27,7 +29,7 @@ export default function ProfileDropdown() {
         {/* Profile Header */}
         <li className="menu-title px-4 py-2">
           <span className="text-base-content/70 text-xs font-medium">
-            บัญชีของฉัน
+            {t("dropdown.my_account")}
           </span>
         </li>
 
@@ -41,15 +43,15 @@ export default function ProfileDropdown() {
               <User className="w-4 h-4 text-primary" />
             </div>
             <div className="flex flex-col">
-              <span className="font-medium">ดูโปรไฟล์</span>
+              <span className="font-medium">{t("dropdown.view_profile")}</span>
               <span className="text-xs text-base-content/60">
-                จัดการข้อมูลส่วนตัว
+                {t("dropdown.manage_profile")}
               </span>
             </div>
           </Link>
         </li>
 
-        {/* Settings Link (Optional) */}
+        {/* Settings Link */}
         <li>
           <Link
             to="/checkstore"
@@ -59,9 +61,9 @@ export default function ProfileDropdown() {
               <Settings className="w-4 h-4 text-base-content/70" />
             </div>
             <div className="flex flex-col">
-              <span className="font-medium">เช็คสโตร์</span>
+              <span className="font-medium">{t("dropdown.check_store")}</span>
               <span className="text-xs text-base-content/60">
-                ดูข้อมูลที่อยู่ใน store
+                {t("dropdown.view_store_data")}
               </span>
             </div>
           </Link>
@@ -80,9 +82,9 @@ export default function ProfileDropdown() {
               <LogOut className="w-4 h-4 text-error" />
             </div>
             <div className="flex flex-col">
-              <span className="font-medium">ออกจากระบบ</span>
+              <span className="font-medium">{t("dropdown.logout")}</span>
               <span className="text-xs text-base-content/60">
-                ลงชื่อออกจากบัญชี
+                {t("dropdown.logout_desc")}
               </span>
             </div>
           </button>

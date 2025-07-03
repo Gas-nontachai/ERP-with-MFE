@@ -2,6 +2,7 @@ import { Layout, Menu, Button } from "antd";
 import { useState } from "react";
 import { routeConfig } from "../router/routes";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const { Sider } = Layout;
 
@@ -13,6 +14,7 @@ type SidebarProps = {
 export default function Sidebar({ section, setSection }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => setCollapsed(!collapsed);
+  const { t } = useTranslation();
 
   return (
     <Sider
@@ -58,7 +60,7 @@ export default function Sidebar({ section, setSection }: SidebarProps) {
           .map((route) => ({
             key: route.path,
             icon: route.icon,
-            label: route.label,
+            label: t(route.label ?? ""),
           }))}
       />
     </Sider>
