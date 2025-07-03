@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import i18n from "../i18n";
-import { UseLanguageStore } from "../stores/languageStore";
+import { useLanguageStore } from "../stores/languageStore";
 
 type LanguageKey = "en" | "th";
 
@@ -10,7 +10,7 @@ const LANGUAGES: Record<LanguageKey, { label: string; flag: string }> = {
 };
 
 export default function LanguageSwitcher() {
-  const { lang, setLang } = UseLanguageStore();
+  const { lang, setLang } = useLanguageStore();
 
   useEffect(() => {
     if (i18n.language !== lang) {
@@ -25,6 +25,8 @@ export default function LanguageSwitcher() {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
+
+    window.location.reload();
   };
 
   return (

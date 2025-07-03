@@ -1,11 +1,11 @@
 import React, { JSX } from "react";
 import { useAuthStore } from "../stores/authStore";
-import { UseLanguageStore } from "../stores/languageStore";
+import { useLanguageStore } from "../stores/languageStore";
 
 export default function ShowAllStoresPage(): JSX.Element {
   // เรียก hook แยกกันก่อน (ตามกฎ Hooks)
   const authState = useAuthStore((state) => state);
-  const languageStore = UseLanguageStore((state) => state);
+  const languageStore = useLanguageStore((state) => state);
 
   // รวม states เป็น object เดียว
   const allStates: Record<string, unknown> = {

@@ -76,6 +76,9 @@ module.exports = {
       exposes: {
         "./UserManageApp": "./src/bootstrap",
       },
+      remotes: {
+        host: "host@http://localhost:3000/remoteEntry.js",
+      },
       shared: {
         react: {
           singleton: true,

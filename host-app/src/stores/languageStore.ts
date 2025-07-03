@@ -8,7 +8,7 @@ interface LanguageState {
   setLang: (lang: LanguageKey) => void;
 }
 
-export const UseLanguageStore = create<LanguageState>()(
+export const useLanguageStore = create<LanguageState>()(
   persist(
     (set) => ({
       lang: "en",

@@ -72,6 +72,12 @@ module.exports = {
     }),
     new ModuleFederationPlugin({
       name: "host",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./authStore": "./src/stores/authStore",
+        "./languageStore": "./src/stores/languageStore",
+        "./PermissionWrapper": "./src/components/PermissionWrapper",
+      },
       remotes: {
         user_manage: "user_manage@http://localhost:3001/remoteEntry.js",
       },
