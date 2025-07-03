@@ -3,11 +3,9 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../stores/authStore";
 import { LoginForm } from "../types";
-import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
   const setAuth = useAuthStore((state) => state.setAuth);
-  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: async (data: LoginForm) => {
@@ -31,7 +29,7 @@ export const useAuth = () => {
       localStorage.setItem("user", JSON.stringify(user));
 
       toast.success("Login successful!"); // <-- ใช้ toast แทน message.success
-      navigate("/");
+      window.location.href = "/";
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || "Login failed."); // <-- ใช้ toast.error แทน message.error

@@ -3,6 +3,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useRolePermissions } from "../hooks/usePermissions";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { useHasPermission } from "../utils/permissionUtils";
 
 type PermissionCheckboxes = {
   [menuId: string]: {
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export default function RolePermissionTable({ roleId }: Props) {
+  const scope = "permissions";
   const { t } = useTranslation();
   const { menus, permissionsMap, isLoading, updatePermissions } =
     useRolePermissions(roleId);
@@ -32,6 +34,7 @@ export default function RolePermissionTable({ roleId }: Props) {
 
   const [submitting, setSubmitting] = useState(false);
   const prevResetRef = useRef("");
+  const hasActionPermission = useHasPermission(scope, "update");
 
   useEffect(() => {
     const defaultPerms: PermissionCheckboxes = {};
@@ -84,6 +87,7 @@ export default function RolePermissionTable({ roleId }: Props) {
           control={control}
           render={({ field }) => (
             <Checkbox
+              disabled={!hasActionPermission}
               checked={field.value}
               onChange={(e) => field.onChange(e.target.checked)}
               aria-label={t(`permission.menu_name.${perm}`)}
@@ -103,14 +107,16 @@ export default function RolePermissionTable({ roleId }: Props) {
         pagination={false}
         bordered
       />
-      <Button
-        type="primary"
-        htmlType="submit"
-        loading={submitting}
-        style={{ marginTop: 16 }}
-      >
-        {t("action.save")}
-      </Button>
+      {hasActionPermission && (
+        <Button
+          type="primary"
+          htmlType="submit"
+          loading={submitting}
+          style={{ marginTop: 16 }}
+        >
+          {t("action.save")}
+        </Button>
+      )}
     </form>
   );
 }

@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
 import { useAuthStore } from "../stores/authStore";
 
+type ActionType = "view" | "create" | "update" | "delete";
+
 interface PermissionWrapperProps {
-  permission?: string; // สามารถเป็น "" หรือ undefined ได้
-  action?: "view" | "create" | "update" | "delete"; // default = "view"
+  permission?: string;
+  action?: ActionType | ActionType[];
   children: ReactNode;
 }
 
@@ -14,14 +16,17 @@ export default function PermissionWrapper({
 }: PermissionWrapperProps) {
   const permissions = useAuthStore((state) => state.permission);
 
-  // ถ้าไม่ได้ระบุ permission หรือเป็น "", แสดงได้เลย
   if (!permission || permission.trim() === "") {
     return <>{children}</>;
   }
 
+  const actions = Array.isArray(action) ? action : [action];
+
   const hasPermission =
     Array.isArray(permissions) &&
-    permissions.some((p) => p.menu?.name === permission && p[action] === true);
+    permissions.some(
+      (p) => p.menu?.name === permission && actions.some((a) => p[a] === true)
+    );
 
   if (!hasPermission) return null;
 
