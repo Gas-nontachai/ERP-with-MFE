@@ -1,8 +1,10 @@
+import { Role, Menu } from "./";
+
 export type Permission = {
   roleId: string;
-  role?: any;
+  role?: Role;
   menuId: string;
-  menu?: any;
+  menu?: Menu;
   view: boolean;
   create: boolean;
   update: boolean;

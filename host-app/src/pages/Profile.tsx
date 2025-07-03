@@ -50,7 +50,7 @@ export default function Profile() {
                 <div className="flex items-center gap-2 mb-4">
                   <Shield className="w-4 h-4" />
                   <div className="badge badge-primary badge-lg">
-                    {user.role.name}
+                    {user.role?.name}
                   </div>
                 </div>
 
@@ -117,7 +117,7 @@ export default function Profile() {
                     </label>
                     <div className="input input-bordered flex items-center gap-2 bg-base-200">
                       <span className="text-base-content">
-                        {user.role.name}
+                        {user.role?.name}
                       </span>
                     </div>
                   </div>

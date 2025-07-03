@@ -10,7 +10,7 @@ import UserManage from "../pages/UserManage";
 export const navItems: NavItem[] = [
   {
     to: "/",
-    label: "MyApp",
+    label: "Home",
     className: "btn btn-ghost text-xl",
     showInNav: true,
   },
@@ -19,6 +19,7 @@ export const navItems: NavItem[] = [
     label: "User Manage",
     className: "btn btn-ghost text-xl",
     showInNav: true,
+    permission: "users",
   },
 ];
 

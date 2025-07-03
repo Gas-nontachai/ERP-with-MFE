@@ -3,4 +3,5 @@ export type NavItem = {
   label: string;
   className: string;
   showInNav: boolean;
+  permission?: string;
 };
