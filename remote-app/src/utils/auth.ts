@@ -1,15 +1,12 @@
 // utils/auth.ts
 import { useAuthStore } from "host/authStore";
 
-/**
- * ดึง access token จาก Zustand (ถ้าไม่มีใน Zustand fallback ไป localStorage)
- */
 export function getToken(): string | null {
   const tokenFromStore = useAuthStore.getState().token;
+
   if (tokenFromStore) return tokenFromStore;
 
-  // fallback เผื่อ Zustand ยังไม่ได้ restore
-  return localStorage.getItem("accessToken");
+  return null;
 }
 
 /**

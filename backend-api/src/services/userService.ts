@@ -1,4 +1,5 @@
 import { PrismaClient, User } from "@prisma/client";
+import { BadRequestError } from "../errors/";
 import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
@@ -55,7 +56,7 @@ export async function createUser(
 ): Promise<User> {
   const existingUser = await prisma.user.findUnique({ where: { email } });
   if (existingUser) {
-    throw new Error("Email already in use");
+    throw new BadRequestError("Email already in use");
   }
 
   const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);

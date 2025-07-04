@@ -1,5 +1,5 @@
 import { PrismaClient, Role } from "@prisma/client";
-
+import { BadRequestError } from "../errors/";
 const prisma = new PrismaClient();
 
 export async function generateRoleId(): Promise<string> {
@@ -48,9 +48,8 @@ export async function createRole(
 ): Promise<Role> {
   const existingRole = await prisma.role.findUnique({ where: { name } });
   if (existingRole) {
-    throw new Error("Role already in use");
+    throw new BadRequestError("Role already in use");
   }
-
   return prisma.role.create({
     data: { id: roleId, name, description, addBy },
   });

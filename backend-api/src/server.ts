@@ -4,6 +4,7 @@ import fastifyJwt from "@fastify/jwt";
 import { routes } from "./routes";
 import { logRequest } from "./utils/logger";
 import cors from "@fastify/cors";
+import { registerErrorHandler } from "./utils/error-handler";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -33,6 +34,8 @@ fastify.register(cors, {
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 });
+
+registerErrorHandler(fastify);
 
 fastify.register(fastifyJwt, {
   secret: process.env.JWT_SECRET || "supersecret",

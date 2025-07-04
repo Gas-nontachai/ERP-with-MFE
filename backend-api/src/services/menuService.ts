@@ -1,5 +1,5 @@
 import { PrismaClient, Menu } from "@prisma/client";
-
+import { BadRequestError } from "../errors/"; 
 const prisma = new PrismaClient();
 
 export async function generateMenuId(): Promise<string> {
@@ -50,7 +50,7 @@ export async function createMenu(
     where: { name },
   });
   if (existingMenu) {
-    throw new Error("Menu already in use");
+    throw new BadRequestError("Menu name already in use");
   }
 
   return prisma.menu.create({

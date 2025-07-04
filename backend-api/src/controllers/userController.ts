@@ -1,6 +1,8 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { userService } from "../services";
 import { buildPrismaQuery, QueryParams } from "../utils/buildPrismaQuery";
+import { NotFoundError } from "../errors/";
+import { sendSuccess } from "../utils/response";
 
 export async function generateUserId(
   request: FastifyRequest,
@@ -16,7 +18,7 @@ export async function getAllUsers(
 ) {
   const query = buildPrismaQuery(request.query as QueryParams);
   const users = await userService.getAllUsers(query);
-  reply.send(users);
+  sendSuccess(reply, users, "Get User successfully");
 }
 
 export async function getUserById(
@@ -26,9 +28,9 @@ export async function getUserById(
   const userId = request.params.userId;
   const user = await userService.getUserById(userId);
   if (!user) {
-    return reply.status(404).send({ error: "User not found" });
+    throw new NotFoundError("User not found");
   }
-  reply.send(user);
+  sendSuccess(reply, user, "Get User successfully");
 }
 
 export async function createUser(
@@ -39,18 +41,14 @@ export async function createUser(
 ) {
   const userId = await userService.generateUserId();
   const { email, password, name, roleId } = request.body;
-  try {
-    const user = await userService.createUser(
-      userId,
-      email,
-      password,
-      name,
-      roleId
-    );
-    reply.code(201).send(user);
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  const user = await userService.createUser(
+    userId,
+    email,
+    password,
+    name,
+    roleId
+  );
+  sendSuccess(reply, user, "Create User successfully");
 }
 
 export async function updateUserById(
@@ -62,16 +60,12 @@ export async function updateUserById(
 ) {
   const userId = request.params.userId;
   const { name, roleId } = request.body;
-  try {
-    const updatedUser = await userService.updateUserById(userId, {
-      name,
-      roleId,
-      updatedAt: new Date(),
-    });
-    reply.send(updatedUser);
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  const updatedUser = await userService.updateUserById(userId, {
+    name,
+    roleId,
+    updatedAt: new Date(),
+  });
+  sendSuccess(reply, updatedUser, "Update User successfully");
 }
 
 export async function deleteUserById(
@@ -79,10 +73,6 @@ export async function deleteUserById(
   reply: FastifyReply
 ) {
   const userId = request.params.userId;
-  try {
-    await userService.deleteUserById(userId);
-    reply.code(204).send();
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  await userService.deleteUserById(userId);
+  sendSuccess(reply, { delete: true }, "Delete User successfully");
 }

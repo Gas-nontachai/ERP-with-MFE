@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { permissionService } from "../services";
 import { buildPrismaQuery, QueryParams } from "../utils/buildPrismaQuery";
 import { PermissionInput } from "../types";
+import { sendSuccess } from "../utils/response";
 
 export async function getPermissions(
   request: FastifyRequest,
@@ -9,7 +10,7 @@ export async function getPermissions(
 ) {
   const query = buildPrismaQuery(request.query as QueryParams);
   const permissions = await permissionService.getPermissions(query);
-  reply.send(permissions);
+  sendSuccess(reply, permissions, "Get Permissions successfully");
 }
 export async function updatePermissionBy(
   request: FastifyRequest<{ Body: PermissionInput[] }>,
@@ -18,11 +19,6 @@ export async function updatePermissionBy(
   const permissions = request.body;
   const updateBy = (request.user as any).userId;
 
-  try {
-    await permissionService.updatePermissionBy(permissions, updateBy);
-
-    reply.send({ success: true });
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  await permissionService.updatePermissionBy(permissions, updateBy);
+  sendSuccess(reply, { success: true }, "Update Permissions successfully");
 }

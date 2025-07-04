@@ -1,6 +1,8 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { menuService } from "../services";
 import { buildPrismaQuery, QueryParams } from "../utils/buildPrismaQuery";
+import { NotFoundError } from "../errors/";
+import { sendSuccess } from "../utils/response";
 
 export async function generateMenuId(
   request: FastifyRequest,
@@ -16,7 +18,7 @@ export async function getAllMenus(
 ) {
   const query = buildPrismaQuery(request.query as QueryParams);
   const menus = await menuService.getAllMenus(query);
-  reply.send(menus);
+  sendSuccess(reply, menus, "Get Menu successfully");
 }
 
 export async function getMenuById(
@@ -26,9 +28,9 @@ export async function getMenuById(
   const menuId = request.params.menuId;
   const menu = await menuService.getMenuById(menuId);
   if (!menu) {
-    return reply.status(404).send({ error: "Menu not found" });
+    throw new NotFoundError("Menu not found");
   }
-  reply.send(menu);
+  sendSuccess(reply, menu, "Get Menu successfully");
 }
 
 export async function createMenu(
@@ -40,17 +42,8 @@ export async function createMenu(
   const menuId = await menuService.generateMenuId();
   const { name, description } = request.body;
   const addBy = (request.user as any).userId;
-  try {
-    const menu = await menuService.createMenu(
-      menuId,
-      name,
-      description,
-      addBy
-    );
-    reply.code(201).send(menu);
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  const menu = await menuService.createMenu(menuId, name, description, addBy);
+  sendSuccess(reply, menu, "Create Menu successfully");
 }
 
 export async function updateMenuById(
@@ -63,20 +56,13 @@ export async function updateMenuById(
   const menuId = request.params.menuId;
   const { name, description } = request.body;
   const updateBy = (request.user as any).userId;
-  try {
-    const updatedMenu = await menuService.updateMenuById(
-      menuId,
-      {
-        name,
-        description,
-        updateBy,
-        updatedAt: new Date(),
-      }
-    );
-    reply.send(updatedMenu);
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  const updatedMenu = await menuService.updateMenuById(menuId, {
+    name,
+    description,
+    updateBy,
+    updatedAt: new Date(),
+  });
+  sendSuccess(reply, updatedMenu, "Update Menu successfully");
 }
 
 export async function deleteMenuById(
@@ -84,10 +70,6 @@ export async function deleteMenuById(
   reply: FastifyReply
 ) {
   const menuId = request.params.menuId;
-  try {
-    await menuService.deleteMenuById(menuId);
-    reply.code(204).send();
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  await menuService.deleteMenuById(menuId);
+  sendSuccess(reply, { delete: true }, "Delete Menu successfully");
 }

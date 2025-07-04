@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { PrismaClient } from "@prisma/client";
+import { BadRequestError } from "../errors";
 
 const prisma = new PrismaClient();
 
@@ -18,11 +19,11 @@ export function checkPermission(
   menuName: string,
   action: "view" | "create" | "update" | "delete"
 ) {
-  return async function (request: FastifyRequest, reply: FastifyReply) {
+  return async function (request: FastifyRequest, _reply: FastifyReply) {
     const authUser = request.user as AuthUser;
 
     if (!authUser) {
-      return reply.status(401).send({ error: "Unauthorized" });
+      throw new BadRequestError("Unauthorized");
     }
 
     const userWithRole = await prisma.user.findUnique({
@@ -44,13 +45,13 @@ export function checkPermission(
     });
 
     if (!userWithRole?.role?.permissions?.length) {
-      return reply.status(403).send({ error: "No permission for this module" });
+      throw new BadRequestError("No permission for this module");
     }
 
     const rp = userWithRole.role.permissions[0];
 
     if (!rp[action]) {
-      return reply.status(403).send({ error: `Permission denied: ${action}` });
+      throw new BadRequestError(`Permission denied: ${action}`);
     }
   };
 }

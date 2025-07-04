@@ -1,6 +1,8 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { roleService } from "../services";
 import { buildPrismaQuery, QueryParams } from "../utils/buildPrismaQuery";
+import { NotFoundError } from "../errors/";
+import { sendSuccess } from "../utils/response";
 
 export async function generateRoleId(
   request: FastifyRequest,
@@ -16,7 +18,7 @@ export async function getAllRoles(
 ) {
   const query = buildPrismaQuery(request.query as QueryParams);
   const roles = await roleService.getAllRoles(query);
-  reply.send(roles);
+  sendSuccess(reply, roles, "Get Role successfully");
 }
 
 export async function getRoleById(
@@ -26,9 +28,9 @@ export async function getRoleById(
   const roleId = request.params.roleId;
   const role = await roleService.getRoleById(roleId);
   if (!role) {
-    return reply.status(404).send({ error: "Role not found" });
+    throw new NotFoundError("Role not found");
   }
-  reply.send(role);
+  sendSuccess(reply, role, "Get Role successfully");
 }
 
 export async function createRole(
@@ -40,12 +42,8 @@ export async function createRole(
   const roleId = await roleService.generateRoleId();
   const { name, description } = request.body;
   const addBy = (request.user as any).userId;
-  try {
-    const role = await roleService.createRole(roleId, name, description, addBy);
-    reply.code(201).send(role);
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  const role = await roleService.createRole(roleId, name, description, addBy);
+  sendSuccess(reply, role, "Create Role successfully");
 }
 
 export async function updateRoleById(
@@ -58,17 +56,13 @@ export async function updateRoleById(
   const roleId = request.params.roleId;
   const { name, description } = request.body;
   const updateBy = (request.user as any).userId;
-  try {
-    const updatedRole = await roleService.updateRoleById(roleId, {
-      name,
-      description,
-      updateBy,
-      updatedAt: new Date(),
-    });
-    reply.send(updatedRole);
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  const updatedRole = await roleService.updateRoleById(roleId, {
+    name,
+    description,
+    updateBy,
+    updatedAt: new Date(),
+  });
+  sendSuccess(reply, updatedRole, "Update Role successfully");
 }
 
 export async function deleteRoleById(
@@ -76,10 +70,6 @@ export async function deleteRoleById(
   reply: FastifyReply
 ) {
   const roleId = request.params.roleId;
-  try {
-    await roleService.deleteRoleById(roleId);
-    reply.code(204).send();
-  } catch (error) {
-    reply.status(400).send({ error: (error as Error).message });
-  }
+  await roleService.deleteRoleById(roleId);
+  sendSuccess(reply, { delete: true }, "Delete Role successfully");
 }

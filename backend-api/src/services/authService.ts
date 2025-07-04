@@ -1,9 +1,10 @@
 import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { BadRequestError } from "../errors/";
 
 const prisma = new PrismaClient();
 const SALT_ROUNDS = 10;
-// สร้าง user ใหม่ (hash password ก่อนบันทึก)
+
 export async function registerUser(
   userId: string,
   email: string,
@@ -11,13 +12,11 @@ export async function registerUser(
   name: string,
   roleId: string
 ): Promise<User> {
-  // เช็คว่ามี email นี้อยู่แล้วไหม
   const existingUser = await prisma.user.findUnique({ where: { email } });
   if (existingUser) {
-    throw new Error("Email already in use");
+    throw new BadRequestError("Email already in use");
   }
 
-  // hash รหัสผ่าน
   const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
   return prisma.user.create({
