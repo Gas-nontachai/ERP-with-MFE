@@ -1,20 +1,32 @@
 // components/Layout.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import Sidebar from "../components/Sidebar";
+import i18n from "../i18n";
+import { useTranslation } from "react-i18next";
 
 interface LayoutProps {
+  useLanguageStore: typeof import("host/languageStore").useLanguageStore;
   selectedPage: string;
   onSelectPage: (page: string) => void;
   children: React.ReactNode;
 }
 
 export default function Layout({
+  useLanguageStore,
   selectedPage,
   onSelectPage,
   children,
 }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const lang = useLanguageStore((state) => state.lang);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    if (lang && i18n.language !== lang) {
+      i18n.changeLanguage(lang);
+    }
+  }, [lang]);
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
@@ -40,7 +52,7 @@ export default function Layout({
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" noWrap>
-              Product Manager
+              {t("title")}
             </Typography>
           </Toolbar>
         </AppBar>

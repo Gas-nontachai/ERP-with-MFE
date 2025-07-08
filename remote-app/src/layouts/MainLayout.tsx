@@ -6,7 +6,6 @@ import i18n from "../i18n";
 
 const { Content } = Layout;
 
-// Component ที่ใช้ useLanguageStore hook ได้แน่นอน
 function MainLayoutContent({
   useLanguageStore,
   children,
