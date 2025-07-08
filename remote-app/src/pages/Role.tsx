@@ -154,7 +154,7 @@ export default function RolePage() {
               />
             }
           >
-            <Table
+            <Table<RoleData>
               dataSource={filteredRoles}
               rowKey="id"
               loading={isLoading}
@@ -171,20 +171,20 @@ export default function RolePage() {
               }}
               columns={[
                 {
-                  title: "Name",
+                  title: t("role.name"),
                   dataIndex: "name",
                   sorter: (a, b) => a.name.localeCompare(b.name),
                   sortDirections: ["ascend", "descend"],
                 },
                 {
-                  title: "Description",
+                  title: t("role.description"),
                   dataIndex: "description",
                   ellipsis: true,
                 },
                 ...(hasActionPermission
                   ? [
                       {
-                        title: "Actions",
+                        title: t("action.title"),
                         render: (_: any, record: RoleData) => (
                           <Space>
                             <PermissionWrapper

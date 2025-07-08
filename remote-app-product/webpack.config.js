@@ -15,12 +15,12 @@ module.exports = {
   mode: "development",
   entry: "./src/index.tsx",
   output: {
-    publicPath: "auto", // แทน "http://localhost:3000/"
+    publicPath: "auto",
     filename: "[name].[contenthash].js",
     clean: true,
   },
   devServer: {
-    port: 3000,
+    port: 3002,
     historyApiFallback: true,
     proxy: [
       {
@@ -52,16 +52,16 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/, // matches .css files only
-        use: ["style-loader", "css-loader", "postcss-loader"], // we want to use css-loader and style-loader for css files
+        test: /\.css$/,
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif|mp4)$/i, // matches png, svg, jpg, jpeg, gif
-        type: "asset/resource", // built-in Asset modules
+        test: /\.(png|svg|jpg|jpeg|gif|mp4)$/i,
+        type: "asset/resource",
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i, // matches all those provided inside
-        type: "asset/resource", // built-in Asset modules
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
       },
     ],
   },
@@ -71,16 +71,13 @@ module.exports = {
       template: "./public/index.html",
     }),
     new ModuleFederationPlugin({
-      name: "host",
+      name: "product_manage",
       filename: "remoteEntry.js",
       exposes: {
-        "./authStore": "./src/stores/authStore",
-        "./languageStore": "./src/stores/languageStore",
-        "./PermissionWrapper": "./src/components/PermissionWrapper",
+        "./ProductManageApp": "./src/bootstrap",
       },
       remotes: {
-        user_manage: "user_manage@http://localhost:3001/remoteEntry.js",
-        product_manage: "product_manage@http://localhost:3002/remoteEntry.js",
+        host: "host@http://localhost:3000/remoteEntry.js",
       },
       shared: {
         react: {

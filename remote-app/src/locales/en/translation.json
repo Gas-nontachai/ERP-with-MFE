@@ -42,6 +42,8 @@
         "delete_confirm": "Are you sure you want to delete this user?"
     },
     "role": {
+        "name": "Name",
+        "description": "Description",
         "name_required": "Role name is required",
         "name_placeholder": "Enter role name",
         "description_placeholder": "Enter role description",

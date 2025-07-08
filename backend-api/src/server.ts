@@ -39,6 +39,9 @@ registerErrorHandler(fastify);
 
 fastify.register(fastifyJwt, {
   secret: process.env.JWT_SECRET || "supersecret",
+  sign: {
+    expiresIn: "12h",
+  },
 });
 
 fastify.decorate("authenticate", async function (req: any, res: any) {

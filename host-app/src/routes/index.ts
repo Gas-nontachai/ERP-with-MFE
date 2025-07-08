@@ -6,6 +6,7 @@ import Profile from "../pages/Profile";
 import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
 import UserManage from "../pages/UserManage";
+import ProductManage from "../pages/ProductManage";
 
 export const navItems: NavItem[] = [
   {
@@ -21,6 +22,13 @@ export const navItems: NavItem[] = [
     showInNav: true,
     permission: "users",
   },
+  {
+    to: "/product_manage",
+    label: "Produt Manage",
+    className: "btn btn-ghost text-xl",
+    showInNav: true,
+    // permission: "users",
+  },
 ];
 
 export const routes = [
@@ -29,5 +37,6 @@ export const routes = [
   { path: "/login", element: React.createElement(Login) },
   { path: "/checkstore", element: React.createElement(CheckStore) },
   { path: "/user_manage", element: React.createElement(UserManage) },
+  { path: "/product_manage", element: React.createElement(ProductManage) },
   { path: "*", element: React.createElement(NotFound) },
 ];

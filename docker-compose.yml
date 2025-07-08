@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8
-    container_name: mysql-container 
+    container_name: mysql-container
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root123
@@ -73,6 +73,22 @@ services:
       - backend-api
     volumes:
       - ./remote-app:/app
+    working_dir: /app
+    command: npm run serve
+  remote-app-product:
+    build:
+      context: ./remote-app-product
+    container_name: remote-app-product
+    restart: always
+    ports:
+      - "3002:3002"
+    environment:
+      REACT_APP_API_URL: /api
+      PORT: 3002
+    depends_on:
+      - backend-api
+    volumes:
+      - ./remote-app-product:/app
     working_dir: /app
     command: npm run serve
 

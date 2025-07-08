@@ -40,6 +40,8 @@
         "delete_confirm": "คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้นี้?"
     },
     "role": {
+        "name": "ชื่อ",
+        "description": "รายละเอียด",
         "name_required": "กรุณากรอกชื่อบทบาท",
         "name_placeholder": "กรอกชื่อบทบาท",
         "description_placeholder": "กรอกรายละเอียดบทบาท",
