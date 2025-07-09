@@ -36,8 +36,6 @@ export default function Sidebar({
         borderColor: "divider",
         transition: "width 0.3s ease",
         overflowX: "hidden",
-        position: "fixed",
-        zIndex: 1200,
       }}
     >
       <Box

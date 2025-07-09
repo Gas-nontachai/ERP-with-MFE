@@ -30,6 +30,11 @@ model User {
   menusUpdated       Menu[]       @relation("MenuUpdatedBy")
   permissionsCreated Permission[] @relation("RPCreatedBy")
   permissionsUpdated Permission[] @relation("RPUpdatedBy")
+
+  categoriesCreated Category[] @relation("CategoryCreatedBy")
+  categoriesUpdated Category[] @relation("CategoryUpdatedBy")
+  productsCreated   Product[]  @relation("ProductCreatedBy")
+  productsUpdated   Product[]  @relation("ProductUpdatedBy")
 }
 
 model Role {
@@ -89,4 +94,42 @@ model Permission {
   updatedBy User? @relation("RPUpdatedBy", fields: [updateBy], references: [userId])
 
   @@id([roleId, menuId])
+}
+
+model Category {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+
+  addBy    String?
+  updateBy String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  createdBy User? @relation("CategoryCreatedBy", fields: [addBy], references: [userId])
+  updatedBy User? @relation("CategoryUpdatedBy", fields: [updateBy], references: [userId])
+
+  products Product[]
+}
+
+model Product {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  product_img String
+  stock       Int     @default(0)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  addBy    String?
+  updateBy String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  createdBy User? @relation("ProductCreatedBy", fields: [addBy], references: [userId])
+  updatedBy User? @relation("ProductUpdatedBy", fields: [updateBy], references: [userId])
 }

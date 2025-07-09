@@ -41,7 +41,6 @@ export default function Layout({
       {/* Content Area */}
       <Box
         sx={{
-          marginLeft: collapsed ? "72px" : "240px",
           width: "100%",
           transition: "margin-left 0.3s ease",
           display: "flex",

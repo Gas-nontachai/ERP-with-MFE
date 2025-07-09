@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { authRoutes } from "./authRoutes";
+import { categoryRoutes } from "./categoryRoutes";
 import { menuRoutes } from "./menuRoutes";
 import { permissionRoutes } from "./permissionRoutes";
 import { roleRoutes } from "./roleRoutes";
@@ -14,6 +15,7 @@ export async function routes(fastify: FastifyInstance) {
   fastify.register(
     async (apiScope) => {
       await authRoutes(apiScope);
+      await categoryRoutes(apiScope);
       await menuRoutes(apiScope);
       await permissionRoutes(apiScope);
       await roleRoutes(apiScope);

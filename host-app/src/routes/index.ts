@@ -27,7 +27,7 @@ export const navItems: NavItem[] = [
     label: "Produt Manage",
     className: "btn btn-ghost text-xl",
     showInNav: true,
-    // permission: "users",
+    permission: "products",
   },
 ];
 

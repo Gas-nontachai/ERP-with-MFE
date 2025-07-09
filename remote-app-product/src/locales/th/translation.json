@@ -1,3 +1,23 @@
 {
-    "title": "ระบบจัดการสินค้า"
+    "title": "ระบบจัดการสินค้า",
+    "action": {
+        "title": "การจัดการ",
+        "create": "สร้าง",
+        "update": "อัปเดต",
+        "edit": "แก้ไข",
+        "cancel": "ยกเลิก",
+        "hide_form": "ซ่อนฟอร์ม",
+        "show_create_form": "แสดงฟอร์มสร้าง",
+        "show_edit_form": "แสดงฟอร์มแก้ไข"
+    },
+    "category": {
+        "name": "ชื่อหมวดหมู่",
+        "description": "คำอธิบาย",
+        "name_placeholder": "กรอกชื่อหมวดหมู่",
+        "description_placeholder": "กรอกคำอธิบาย (ถ้ามี)",
+        "name_required": "กรุณากรอกชื่อหมวดหมู่",
+        "search_placeholder": "ค้นหาหมวดหมู่...",
+        "no_categorys_found": "ไม่พบหมวดหมู่ที่ตรงกับ \"{{search}}\"",
+        "no_categorys_available": "ยังไม่มีหมวดหมู่"
+    }
 }
