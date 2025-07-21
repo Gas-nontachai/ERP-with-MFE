@@ -1,7 +1,6 @@
 // MUI Replacement for CategoryPage
 import {
   Container,
-  Typography,
   Paper,
   TextField,
   Button,
@@ -11,10 +10,6 @@ import {
   TableCell,
   TableBody,
   IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   InputAdornment,
   CircularProgress,
   Box,
@@ -22,7 +17,6 @@ import {
 import { Delete, Edit, Search } from "@mui/icons-material";
 import { Controller } from "react-hook-form";
 import { useState, useMemo } from "react";
-import { CategoryData } from "../types";
 import { useCategorys } from "../hooks/useCategorys";
 import { useTranslation } from "react-i18next";
 import PermissionWrapper from "../components/PermissionWrapper";
@@ -82,9 +76,7 @@ export default function CategoryPage() {
 
       {formVisible && (
         <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            {editingCategoryId ? t("action.edit") : t("action.create")}
-          </Typography>
+          <h6> {editingCategoryId ? t("action.edit") : t("action.create")}</h6>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
               name="name"
@@ -197,11 +189,11 @@ export default function CategoryPage() {
 
         {!isLoading && filteredCategorys.length === 0 && (
           <Box textAlign="center" py={5}>
-            <Typography variant="body2" color="text.secondary">
+            <p>
               {searchTerm
                 ? t("category.no_categorys_found", { search: searchTerm })
                 : t("category.no_categorys_available")}
-            </Typography>
+            </p>
           </Box>
         )}
       </Paper>
