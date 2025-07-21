@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { routes } from "./routes";
 import Login from "./pages/Login";
 import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
-import { routes } from "./routes";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {

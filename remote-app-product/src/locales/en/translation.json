@@ -1,3 +1,23 @@
 {
-    "title": "Product Management Systems"
+    "title": "Product Management Systems",
+    "action": {
+        "title": "Actions",
+        "create": "Create",
+        "update": "Update",
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "hide_form": "Hide Form",
+        "show_create_form": "Show Create Form",
+        "show_edit_form": "Show Edit Form"
+    },
+    "category": {
+        "name": "Name",
+        "description": "Description",
+        "name_placeholder": "Enter category name",
+        "description_placeholder": "Enter description (optional)",
+        "name_required": "Category name is required",
+        "search_placeholder": "Search categories...",
+        "no_categorys_found": "No categories found for \"{{search}}\"",
+        "no_categorys_available": "No categories available"
+    }
 }

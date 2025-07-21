@@ -23,7 +23,6 @@ export default function RolePermissionPage() {
       {hasViewPermission ? (
         <Card>
           <Title level={3}>{t("permission.title")}</Title>
-
           {isLoading ? (
             <Spin />
           ) : (

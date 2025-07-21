@@ -1,9 +1,8 @@
-import { Layout } from "antd";
 import { useEffect, useState } from "react";
+import { Layout } from "antd";
 import Sidebar from "../components/Sidebar";
 import { routeConfig } from "../router/routes";
 import i18n from "../i18n";
-
 const { Content } = Layout;
 
 function MainLayoutContent({
@@ -13,10 +12,12 @@ function MainLayoutContent({
   useLanguageStore: typeof import("host/languageStore").useLanguageStore;
   children?: React.ReactNode;
 }) {
-  const [section, setSection] = useState(routeConfig[0].path);
+  const [section, setSection] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get("page");
+    return page ? `/${page}` : routeConfig[0].path;
+  });
   const currentRoute = routeConfig.find((r) => r.path === section);
-
-  // เรียก hook ตามปกติ ไม่มีเงื่อนไข
   const lang = useLanguageStore((state) => state.lang);
 
   // อัปเดตภาษา i18n เมื่อ lang เปลี่ยน (ถ้าต้องการ)
@@ -25,6 +26,22 @@ function MainLayoutContent({
       i18n.changeLanguage(lang);
     }
   }, [lang]);
+
+  useEffect(() => {
+    const pageParam = section.replace("/", "");
+    const newUrl = `${window.location.pathname}?page=${pageParam}`;
+    window.history.pushState({}, "", newUrl);
+  }, [section]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get("page");
+      if (page) setSection(`/${page}`);
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -54,7 +71,7 @@ export default function MainLayout({
   }, []);
 
   if (!useLanguageStore) {
-    return <div>Loading...</div>; // หรือ Spinner สวยๆ แทนก็ได้
+    return <div>Loading...</div>;
   }
 
   return (

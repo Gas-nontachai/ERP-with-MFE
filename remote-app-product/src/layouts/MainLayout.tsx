@@ -1,6 +1,6 @@
 // components/Layout.tsx
 import { useState, useEffect } from "react";
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Toolbar } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import i18n from "../i18n";
 import { useTranslation } from "react-i18next";
@@ -41,7 +41,6 @@ export default function Layout({
       {/* Content Area */}
       <Box
         sx={{
-          marginLeft: collapsed ? "72px" : "240px",
           width: "100%",
           transition: "margin-left 0.3s ease",
           display: "flex",
@@ -51,9 +50,7 @@ export default function Layout({
         {/* AppBar */}
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" noWrap>
-              {t("title")}
-            </Typography>
+            <h6> {t("title")}</h6>
           </Toolbar>
         </AppBar>
 

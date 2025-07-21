@@ -6,7 +6,6 @@ import {
   List,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
   Tooltip,
   Divider,
   IconButton,
@@ -36,8 +35,6 @@ export default function Sidebar({
         borderColor: "divider",
         transition: "width 0.3s ease",
         overflowX: "hidden",
-        position: "fixed",
-        zIndex: 1200,
       }}
     >
       <Box
@@ -72,7 +69,7 @@ export default function Sidebar({
               }}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
-              {!collapsed && <ListItemText primary={item.text} />}
+              {!collapsed && <h5>{item.text}</h5>}
             </ListItemButton>
           );
 
