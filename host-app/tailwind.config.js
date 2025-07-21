@@ -8,5 +8,8 @@ const config = {
     },
   },
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: false, // ❌ ปิด theme ทั้งหมด
+  },
 };
 export default config;

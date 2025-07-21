@@ -20,8 +20,7 @@ export const useAuthStore = create<AuthState>()(
       clearAuth: () => set({ token: null, user: null, permission: null }),
     }),
     {
-      name: "auth-storage", // ชื่อ key ใน localStorage
-      // ตัวเลือกเพิ่มเติม เช่น serialize, deserialize, storage, whitelist, blacklist
+      name: "auth-storage",
     }
   )
 );

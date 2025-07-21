@@ -15,7 +15,7 @@ export const useLanguageStore = create<LanguageState>()(
       setLang: (lang) => set({ lang }),
     }),
     {
-      name: "lang-storage", // ชื่อ key ใน localStorage
+      name: "lang-storage",
     }
   )
 );
