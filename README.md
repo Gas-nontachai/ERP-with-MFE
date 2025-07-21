@@ -1,9 +1,4 @@
-# ERP-with-MFE 🧩
-
-**Enterprise Resource Planning System** (ERP) สถาปัตยกรรมแบบ Micro Frontends 
-
----
-
+ 
 ## 🏗️ Architecture Overview
 
 ### Frontend — Micro Frontends
@@ -27,18 +22,6 @@
 | Tool / Library | Description |
 |----------------|-------------|
 | ⚡ Fastify      | High performance web framework |
-| 🛢️ Prisma + MySQL | ORM สำหรับ MySQL |
-| 📘 Swagger      | API documentation | 
+| 🛢️ Prisma + MySQL | ORM สำหรับ MySQL | 
 
----
-
-## 🧪 Testing Strategy
-
-### ✅ Frontend
-- **Unit Tests**: Component logic, utils, form validation
-- **Integration Tests**: API mocking, page-level behavior
-
-### ✅ Backend
-- **Unit Tests**: Domain logic, use-cases, services
-
----
+--- 
